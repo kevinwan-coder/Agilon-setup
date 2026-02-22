@@ -8,9 +8,9 @@ interface DashboardTopBarProps {
 
 const LEFT_NAV = [
   { id: 'home', label: 'Dashboard', icon: '🏠' },
-  { id: 'clients', label: 'Clients', icon: '👥' },
-  { id: 'marketing', label: 'Marketing', icon: '📢' },
-  { id: 'financial', label: 'Financial', icon: '💰' },
+  { id: 'clients', label: 'Clients', icon: '👤' },
+  { id: 'projects', label: 'Projects', icon: '📂' },
+  { id: 'financial', label: 'Acc & Fin', icon: '📊' },
   { id: 'storage', label: 'Storage', icon: '📁' },
   { id: 'settings', label: 'Settings', icon: '⚙️' },
 ];
@@ -76,12 +76,6 @@ export function DashboardTopBar({ activePage, onNavigate }: DashboardTopBarProps
             ))}
           </>
         )}
-
-        {/* Alerts */}
-        <button className="relative p-2 bg-transparent border-none cursor-pointer text-gray hover:text-dark transition-colors text-lg">
-          🔔
-          <span className="absolute top-1 right-1 w-2 h-2 bg-red rounded-full" />
-        </button>
 
         {/* Avatar */}
         <div className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center text-sm font-bold cursor-pointer">

@@ -38,9 +38,9 @@ interface DashboardLayoutProps {
 const SIDEBAR_NAV = [
   { id: 'home', label: 'Dashboard', icon: '🏠' },
   { id: 'clients', label: 'Clients', icon: '👤' },
-  { id: 'marketing', label: 'Marketing', icon: '📢' },
-  { id: 'financial', label: 'Sts Fiesils', icon: '📊' },
-  { id: 'news', label: 'News', icon: '💬' },
+  { id: 'projects', label: 'Projects', icon: '📂' },
+  { id: 'financial', label: 'Acc & Fin', icon: '📊' },
+  { id: 'storage', label: 'Storage', icon: '📁' },
   { id: 'settings', label: 'Settings', icon: '⚙️' },
 ];
 
