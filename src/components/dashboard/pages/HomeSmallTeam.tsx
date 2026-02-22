@@ -167,7 +167,7 @@ export function HomeSmallTeam() {
         <div className="flex gap-6 mb-24 mt-[15px]">
           <div className="flex-1">
             <h2 className="text-lg font-bold text-dark mb-3">Team Overview & News Update</h2>
-            <div className="grid grid-cols-4 gap-3" style={{ maxWidth: '80%' }}>
+            <div className="grid grid-cols-4 gap-6" style={{ maxWidth: '80%' }}>
               {/* Today's News */}
               <div className="bg-[#1a1a1a] rounded-2xl border border-border p-3">
                 <h3 className="text-xs font-bold text-[#f59e0b] mb-3">Today's News</h3>
