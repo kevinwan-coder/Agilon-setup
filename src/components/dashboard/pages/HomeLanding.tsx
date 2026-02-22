@@ -235,11 +235,6 @@ export function HomeLanding() {
               </div>
               <div className="px-3 py-2 text-xs font-semibold text-dark">Project 2</div>
             </div>
-            {/* More Projects */}
-            <div className="w-[140px] bg-[#1a1a1a] rounded-2xl border border-border flex flex-col items-center justify-center cursor-pointer transition-colors" onMouseEnter={(e) => e.currentTarget.style.borderColor = brandColor} onMouseLeave={(e) => e.currentTarget.style.borderColor = ''}>
-              <span className="text-3xl mb-1" style={{ color: brandColor }}>+</span>
-              <span className="text-xs text-gray">More Projects</span>
-            </div>
             {/* Front Desk — 2-10 only */}
             {isSmallTeam && (
               <div className="w-[140px] bg-[#1a1a1a] rounded-2xl border border-border overflow-hidden cursor-pointer hover:border-[#444] transition-colors">
@@ -268,6 +263,11 @@ export function HomeLanding() {
                 <div className="px-3 py-2 text-xs font-semibold text-dark">Massages</div>
               </div>
             )}
+            {/* + Card */}
+            <div className="w-[140px] bg-[#1a1a1a] rounded-2xl border border-border flex flex-col items-center justify-center cursor-pointer transition-colors" onMouseEnter={(e) => e.currentTarget.style.borderColor = brandColor} onMouseLeave={(e) => e.currentTarget.style.borderColor = ''}>
+              <span className="text-3xl mb-1" style={{ color: brandColor }}>+</span>
+              <span className="text-xs text-gray">More Projects</span>
+            </div>
           </div>
         </div>
 
