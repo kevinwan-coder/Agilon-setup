@@ -81,6 +81,7 @@ const TODO_ITEMS = [
 ];
 
 const DEPARTMENTS = [
+  { name: 'Clients', members: 4, tasks: 10, color: '#0891b2', icon: '👥' },
   { name: 'Engineering', members: 3, tasks: 12, color: '#3b82f6', icon: '⚙️' },
   { name: 'Sales', members: 2, tasks: 9, color: '#22c55e', icon: '💼' },
   { name: 'Support', members: 2, tasks: 15, color: '#f59e0b', icon: '🎧' },
