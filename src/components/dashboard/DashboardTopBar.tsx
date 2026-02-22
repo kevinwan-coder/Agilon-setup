@@ -7,9 +7,8 @@ interface DashboardTopBarProps {
 }
 
 const LEFT_NAV = [
-  { id: 'home', label: 'Dashboard', icon: '🏠' },
-  { id: 'financial', label: 'Acc & Fin', icon: '📊' },
-  { id: 'hr', label: 'HR', icon: '👤' },
+  { id: 'financial', label: 'Acc & Fin', icon: '🤖' },
+  { id: 'hr', label: 'HR', icon: '🤖' },
   { id: 'storage', label: 'Storage', icon: '☁️' },
   { id: 'settings', label: 'Settings', icon: '⚙️' },
 ];
@@ -27,8 +26,8 @@ export function DashboardTopBar({ activePage, onNavigate }: DashboardTopBarProps
 
   return (
     <div className="bg-[#1a1a1a] border-b border-border px-6 flex items-center gap-6 flex-shrink-0 h-[56px]">
-      {/* Left — Company Name */}
-      <div className="flex items-center gap-3 flex-shrink-0">
+      {/* Left — Company Name (click to go home) */}
+      <div className="flex items-center gap-3 flex-shrink-0 cursor-pointer" onClick={() => onNavigate('home')}>
         <div className="text-lg font-bold" style={{ color: branding.color || '#1a56db' }}>
           {businessInfo.name || 'My Business'}
         </div>

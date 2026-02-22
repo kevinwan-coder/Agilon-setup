@@ -36,9 +36,8 @@ interface DashboardLayoutProps {
 /* ─── Sidebar nav items ─── */
 
 const SIDEBAR_NAV = [
-  { id: 'home', label: 'Dashboard', icon: '🏠' },
-  { id: 'financial', label: 'Acc & Fin', icon: '📊' },
-  { id: 'hr', label: 'HR', icon: '👤' },
+  { id: 'financial', label: 'Acc & Fin', icon: '🤖' },
+  { id: 'hr', label: 'HR', icon: '🤖' },
   { id: 'storage', label: 'Storage', icon: '☁️' },
   { id: 'settings', label: 'Settings', icon: '⚙️' },
 ];
@@ -148,7 +147,7 @@ export function DashboardLayout({ children, activePage, onNavigate }: DashboardL
         {/* Left Sidebar */}
         <div className="w-[264px] flex-shrink-0 bg-[#0f1117] border-r border-border flex flex-col">
           {/* Brand */}
-          <div className="px-5 py-5 flex items-center gap-2">
+          <div className="px-5 py-5 flex items-center gap-2 cursor-pointer" onClick={() => onNavigate('home')}>
             <span className="text-xl">☁️</span>
             <span className="text-base font-bold" style={{ color: brandColor }}>
               {businessInfo.name || 'Agilon'} EPA
