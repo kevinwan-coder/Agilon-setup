@@ -35,7 +35,16 @@ interface DashboardLayoutProps {
 
 /* ─── Sidebar nav items ─── */
 
-const SIDEBAR_NAV = [
+const SIDEBAR_NAV_DEFAULT = [
+  { id: 'home', label: 'Dashboard', icon: '🏠' },
+  { id: 'clients', label: 'Clients', icon: '👥' },
+  { id: 'projects', label: 'Projects', icon: '📋' },
+  { id: 'financial', label: 'Acc & Fin', icon: '📊' },
+  { id: 'storage', label: 'Storage', icon: '☁️' },
+  { id: 'settings', label: 'Settings', icon: '⚙️' },
+];
+
+const SIDEBAR_NAV_ENTERPRISE = [
   { id: 'financial', label: 'Acc & Fin', icon: '🤖' },
   { id: 'hr', label: 'HR', icon: '🤖' },
   { id: 'storage', label: 'Storage', icon: '☁️' },
@@ -137,6 +146,9 @@ export function DashboardLayout({ children, activePage, onNavigate }: DashboardL
   };
 
   const isSidebar = template === 'classic';
+  const size = businessInfo.size;
+  const isEnterprise = size === '11-50' || size === '50-plus';
+  const sidebarNav = isEnterprise ? SIDEBAR_NAV_ENTERPRISE : SIDEBAR_NAV_DEFAULT;
 
   /* ═══════════ SIDEBAR LAYOUT (Template 2 / Classic) ═══════════ */
   if (isSidebar) {
@@ -156,7 +168,7 @@ export function DashboardLayout({ children, activePage, onNavigate }: DashboardL
 
           {/* Nav Items */}
           <nav className="flex-1 px-3">
-            {SIDEBAR_NAV.map((item) => (
+            {sidebarNav.map((item) => (
               <button
                 key={item.id}
                 onClick={() => onNavigate(item.id)}

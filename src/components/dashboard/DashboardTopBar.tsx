@@ -6,7 +6,16 @@ interface DashboardTopBarProps {
   onNavigate: (page: string) => void;
 }
 
-const LEFT_NAV = [
+const LEFT_NAV_DEFAULT = [
+  { id: 'home', label: 'Dashboard', icon: '🏠' },
+  { id: 'clients', label: 'Clients', icon: '👥' },
+  { id: 'projects', label: 'Projects', icon: '📋' },
+  { id: 'financial', label: 'Acc & Fin', icon: '📊' },
+  { id: 'storage', label: 'Storage', icon: '☁️' },
+  { id: 'settings', label: 'Settings', icon: '⚙️' },
+];
+
+const LEFT_NAV_ENTERPRISE = [
   { id: 'financial', label: 'Acc & Fin', icon: '🤖' },
   { id: 'hr', label: 'HR', icon: '🤖' },
   { id: 'storage', label: 'Storage', icon: '☁️' },
@@ -21,6 +30,9 @@ export function DashboardTopBar({ activePage, onNavigate }: DashboardTopBarProps
   const businessInfo = useSetupStore((s) => s.businessInfo);
   const branding = useSetupStore((s) => s.branding);
   const skills = useSetupStore((s) => s.skills);
+  const size = businessInfo.size;
+  const isEnterprise = size === '11-50' || size === '50-plus';
+  const leftNav = isEnterprise ? LEFT_NAV_ENTERPRISE : LEFT_NAV_DEFAULT;
 
   const activeSkills = SKILLS.filter((s) => skills.includes(s.id));
 
@@ -39,7 +51,7 @@ export function DashboardTopBar({ activePage, onNavigate }: DashboardTopBarProps
       {/* Right — Nav Items + Calendar + Alerts + Avatar */}
       <div className="flex items-center gap-1 flex-shrink-0">
         {/* Main nav */}
-        {LEFT_NAV.map((item) => (
+        {leftNav.map((item) => (
           <button
             key={item.id}
             onClick={() => onNavigate(item.id)}
