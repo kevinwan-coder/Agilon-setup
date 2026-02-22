@@ -1,30 +1,6 @@
 export type CompanySize = 'just-me' | '2-10' | '11-50' | '50-plus';
 
-export type TemplateName =
-  | 'modern'
-  | 'classic'
-  | 'bold'
-  | 'minimal'
-  | 'corporate'
-  | 'creative'
-  | 'elegant'
-  | 'startup'
-  | 'nature'
-  | 'tech'
-  | 'warm'
-  | 'ocean'
-  | 'midnight'
-  | 'sunset'
-  | 'forest'
-  | 'royal'
-  | 'pastel'
-  | 'neon'
-  | 'slate'
-  | 'ruby'
-  | 'arctic'
-  | 'sand'
-  | 'lavender'
-  | 'carbon';
+export type TemplateName = 'classic' | 'modern';
 
 export type SkillId = 'accounting' | 'hr' | 'tax' | 'scheduling' | 'vdr' | 'it' | 'legal';
 
