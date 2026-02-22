@@ -207,8 +207,43 @@ export function HomeLanding() {
           )}
         </div>
 
-        {/* ═══════════ ROW 3: Projects ═══════════ */}
+        {/* ═══════════ ROW 3: Appointments ═══════════ */}
+        <div className="mb-8">
+          <h2 className="text-lg font-bold text-dark mb-4">Appointments</h2>
+          <div className="flex gap-4">
+            {/* Project 1 */}
+            <div className="w-[140px] bg-[#1a1a1a] rounded-2xl border border-border overflow-hidden cursor-pointer hover:border-[#444] transition-colors">
+              <div className="h-[70px] flex items-center justify-center">
+                <svg width="56" height="42" viewBox="0 0 80 60">
+                  <rect x="5" y="10" width="30" height="40" rx="3" fill="#3b82f6" opacity="0.6" />
+                  <rect x="25" y="5" width="30" height="40" rx="3" fill="#22c55e" opacity="0.6" />
+                  <rect x="45" y="15" width="30" height="40" rx="3" fill="#f59e0b" opacity="0.6" />
+                </svg>
+              </div>
+              <div className="px-3 py-2 text-xs font-semibold text-dark">Project 1</div>
+            </div>
+            {/* Project 2 */}
+            <div className="w-[140px] bg-[#1a1a1a] rounded-2xl border border-border overflow-hidden cursor-pointer hover:border-[#444] transition-colors">
+              <div className="h-[70px] flex items-center justify-center">
+                <svg width="56" height="42" viewBox="0 0 80 60">
+                  <circle cx="25" cy="30" r="18" fill="#7c3aed" opacity="0.6" />
+                  <circle cx="55" cy="25" r="14" fill="#ef4444" opacity="0.6" />
+                  <circle cx="45" cy="42" r="12" fill="#22d3ee" opacity="0.6" />
+                </svg>
+              </div>
+              <div className="px-3 py-2 text-xs font-semibold text-dark">Project 2</div>
+            </div>
+            {/* More Projects */}
+            <div className="w-[140px] bg-[#1a1a1a] rounded-2xl border border-border flex flex-col items-center justify-center cursor-pointer transition-colors" onMouseEnter={(e) => e.currentTarget.style.borderColor = brandColor} onMouseLeave={(e) => e.currentTarget.style.borderColor = ''}>
+              <span className="text-3xl mb-1" style={{ color: brandColor }}>+</span>
+              <span className="text-xs text-gray">More Projects</span>
+            </div>
+          </div>
+        </div>
+
+        {/* ═══════════ ROW 4: Department & Projects ═══════════ */}
         <div className="mb-24">
+          <h2 className="text-lg font-bold text-dark mb-4">Department  &  Projects</h2>
           <div className="flex gap-4">
             {/* Project 1 */}
             <div className="w-[140px] bg-[#1a1a1a] rounded-2xl border border-border overflow-hidden cursor-pointer hover:border-[#444] transition-colors">
