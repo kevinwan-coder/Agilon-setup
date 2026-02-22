@@ -74,7 +74,6 @@ const TEAM_MEMBERS = [
 ];
 
 const TODO_ITEMS = [
-  { label: 'Company Setup', value: 'Unfinished', color: 'text-[#ef4444]' },
   { label: 'Payroll', value: 'Due Mar 1', color: 'text-[#f59e0b]' },
   { label: 'Team Meeting', value: '2:00 PM', color: 'text-dark' },
   { label: 'Messages', value: '5, 12', color: 'text-dark', splitValues: { urgent: '5', normal: '12' } },

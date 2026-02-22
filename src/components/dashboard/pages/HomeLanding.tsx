@@ -81,7 +81,6 @@ function PerformanceChart() {
 /* ─── Data ─── */
 
 const TODO_ITEMS = [
-  { label: 'Company Setup', value: 'Unfinished', color: 'text-[#ef4444]' },
   { label: 'Payment', value: 'Approval', color: 'text-[#f59e0b]' },
   { label: 'Next Appoint', value: '3:30 PM', color: 'text-dark' },
   { label: 'Messages', value: '2, 8', color: 'text-dark', splitValues: { urgent: '2', normal: '8' } },
