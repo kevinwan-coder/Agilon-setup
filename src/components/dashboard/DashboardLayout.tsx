@@ -119,7 +119,7 @@ export function DashboardLayout({ children, activePage, onNavigate }: DashboardL
     return (
       <div className="flex h-screen bg-light overflow-hidden">
         {/* Left Sidebar */}
-        <div className="w-[220px] flex-shrink-0 bg-[#0f1117] border-r border-border flex flex-col">
+        <div className="w-[264px] flex-shrink-0 bg-[#0f1117] border-r border-border flex flex-col">
           {/* Brand */}
           <div className="px-5 py-5 flex items-center gap-2">
             <span className="text-xl">☁️</span>
@@ -145,6 +145,31 @@ export function DashboardLayout({ children, activePage, onNavigate }: DashboardL
               </button>
             ))}
           </nav>
+
+          {/* Financial Summary */}
+          <div className="px-3 mb-3">
+            <div className="bg-[#1a1a1a] rounded-2xl border border-border p-4">
+              <div className="space-y-1.5 text-xs">
+                <div className="flex justify-between">
+                  <span className="text-gray">Balance:</span>
+                  <span className="text-dark font-semibold">$12,715.50</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray">Payments:</span>
+                  <span className="text-dark font-semibold">$2,700.50</span>
+                </div>
+                <div className="text-[9px] text-gray text-right">(EOM)</div>
+                <div className="flex justify-between">
+                  <span className="text-gray">Exp. Receiving:</span>
+                  <span className="text-dark font-semibold">$3,758.25</span>
+                </div>
+                <div className="border-t border-border pt-1.5 flex justify-between">
+                  <span className="text-gray">Net Balance:</span>
+                  <span className="text-[#22c55e] font-bold">$13,773.25</span>
+                </div>
+              </div>
+            </div>
+          </div>
 
           {/* Calendar */}
           <div className="px-3 mb-4">

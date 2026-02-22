@@ -102,7 +102,7 @@ export function HomeLanding() {
       <div className="pt-2 pb-10">
 
         {/* ═══════════ ROW 1: To Do List + Financial Summary ═══════════ */}
-        <div className={isSidebar ? 'mb-[5px]' : 'flex gap-6 mb-[5px] items-start'}>
+        <div className={isSidebar ? 'mb-[15px]' : 'flex gap-6 mb-[15px] items-start'}>
           {/* To Do List */}
           <div className={isSidebar ? '' : 'flex-1'}>
             <h2 className="text-lg font-bold text-dark mb-4">To Do List</h2>
@@ -129,8 +129,8 @@ export function HomeLanding() {
             </div>
           </div>
 
-          {/* Financial Summary — below cards in sidebar mode, beside in default */}
-          <div className={isSidebar ? 'w-[260px] mt-4' : 'w-[260px] flex-shrink-0 mt-[36px]'}>
+          {/* Financial Summary — hidden in sidebar mode (shown in sidebar), beside cards in default */}
+          {!isSidebar && <div className="w-[260px] flex-shrink-0 mt-[36px]">
             <div className="bg-[#1a1a1a] rounded-2xl border border-border p-5">
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
@@ -152,11 +152,11 @@ export function HomeLanding() {
                 </div>
               </div>
             </div>
-          </div>
+          </div>}
         </div>
 
         {/* ═══════════ ROW 2: What's New Today + Calendar ═══════════ */}
-        <div className="flex gap-6 mb-8 mt-[5px]">
+        <div className="flex gap-6 mb-24 mt-[15px]">
           {/* Left — What's New Today */}
           <div className="flex-1">
             <h2 className="text-lg font-bold text-dark mb-4">What's New Today?</h2>
@@ -199,7 +199,7 @@ export function HomeLanding() {
         </div>
 
         {/* ═══════════ ROW 3: Projects ═══════════ */}
-        <div className="mb-8">
+        <div className="mb-24">
           <div className="flex gap-4">
             {/* Project 1 */}
             <div className="w-[140px] bg-[#1a1a1a] rounded-2xl border border-border overflow-hidden cursor-pointer hover:border-[#444] transition-colors">
