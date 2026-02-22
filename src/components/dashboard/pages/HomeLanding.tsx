@@ -101,6 +101,16 @@ export function HomeLanding() {
     <div className="overflow-y-auto">
       <div className="pt-2 pb-10">
 
+        {/* ═══════════ Company Setup Banner ═══════════ */}
+        <div className="mb-4">
+          <div className="bg-[#7c3aed] rounded-xl px-5 py-3 flex items-center justify-between">
+            <div className="text-sm text-white">
+              To finished setup your company, <a href="#" className="underline font-semibold text-white hover:text-white/80">click here</a>
+            </div>
+            <button className="text-white/70 hover:text-white text-lg bg-transparent border-none cursor-pointer leading-none">&times;</button>
+          </div>
+        </div>
+
         {/* ═══════════ ROW 1: To Do List + Financial Summary ═══════════ */}
         <div className={isSidebar ? 'mb-[15px]' : 'flex gap-6 mb-[15px] items-start'}>
           {/* To Do List */}

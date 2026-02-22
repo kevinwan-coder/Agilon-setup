@@ -60,23 +60,6 @@ export function Step1BusinessInfo() {
         error={errors.name}
       />
 
-      <div className="grid grid-cols-2 gap-4">
-        <Select
-          label="Type of Company"
-          options={[...INDUSTRIES]}
-          placeholder="Select type..."
-          value={businessInfo.industry}
-          onChange={(e) => updateBusinessInfo({ industry: e.target.value })}
-        />
-        <Select
-          label="State"
-          options={[...US_STATES]}
-          placeholder="Select state..."
-          value={businessInfo.state}
-          onChange={(e) => updateBusinessInfo({ state: e.target.value })}
-        />
-      </div>
-
       <div className="mb-4">
         <label className="block font-semibold text-sm text-dark mb-1.5">
           Company Size <span className="text-red">*</span>
@@ -98,6 +81,23 @@ export function Step1BusinessInfo() {
           ))}
         </div>
         {errors.size && <p className="text-red text-xs mt-1 text-center">{errors.size}</p>}
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <Select
+          label="Type of Company"
+          options={[...INDUSTRIES]}
+          placeholder="Select type..."
+          value={businessInfo.industry}
+          onChange={(e) => updateBusinessInfo({ industry: e.target.value })}
+        />
+        <Select
+          label="State"
+          options={[...US_STATES]}
+          placeholder="Select state..."
+          value={businessInfo.state}
+          onChange={(e) => updateBusinessInfo({ state: e.target.value })}
+        />
       </div>
 
       <div className="mb-4">

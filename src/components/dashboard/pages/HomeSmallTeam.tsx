@@ -89,6 +89,7 @@ const DEPARTMENTS = [
 ];
 
 const NEWS_ITEMS = ['Industry Updates', 'Tax Deadline Reminder', 'Market Trends'];
+const TODAY_NEWS = ['Fed raises interest rates by 0.25%', 'New labor law takes effect March 1', 'Tech sector hiring up 15%'];
 
 /* ─── Component ─── */
 
@@ -100,6 +101,16 @@ export function HomeSmallTeam() {
   return (
     <div className="overflow-y-auto">
       <div className="pt-2 pb-10">
+
+        {/* ═══════════ Company Setup Banner ═══════════ */}
+        <div className="mb-4">
+          <div className="bg-[#7c3aed] rounded-xl px-5 py-3 flex items-center justify-between">
+            <div className="text-sm text-white">
+              To finished setup your company, <a href="#" className="underline font-semibold text-white hover:text-white/80">click here</a>
+            </div>
+            <button className="text-white/70 hover:text-white text-lg bg-transparent border-none cursor-pointer leading-none">&times;</button>
+          </div>
+        </div>
 
         {/* ═══════════ ROW 1: To Do List + Financial Summary ═══════════ */}
         <div className={isSidebar ? 'mb-[15px]' : 'flex gap-6 mb-[15px] items-start'}>
@@ -155,8 +166,21 @@ export function HomeSmallTeam() {
         {/* ═══════════ ROW 2: Team Overview (60% size) ═══════════ */}
         <div className="flex gap-6 mb-24 mt-[15px]">
           <div className="flex-1">
-            <h2 className="text-lg font-bold text-dark mb-3">Team Overview</h2>
-            <div className="grid grid-cols-3 gap-3" style={{ maxWidth: '60%' }}>
+            <h2 className="text-lg font-bold text-dark mb-3">Team Overview & News Update</h2>
+            <div className="grid grid-cols-4 gap-3" style={{ maxWidth: '80%' }}>
+              {/* Today's News */}
+              <div className="bg-[#1a1a1a] rounded-2xl border border-border p-3">
+                <h3 className="text-xs font-bold text-[#f59e0b] mb-3">Today's News</h3>
+                <div className="space-y-2">
+                  {TODAY_NEWS.map((item) => (
+                    <div key={item} className="text-[11px] text-dark flex items-start gap-1.5">
+                      <span className="text-[9px] mt-0.5">📰</span>
+                      {item}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
               {/* Team Members */}
               <div className="bg-[#1a1a1a] rounded-2xl border border-border p-3">
                 <h3 className="text-xs font-bold text-[#3b82f6] mb-3">Team Members</h3>
