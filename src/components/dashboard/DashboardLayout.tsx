@@ -3,6 +3,30 @@ import { DashboardTopBar } from './DashboardTopBar';
 import { BotChat } from './BotChat';
 import { useSetupStore } from '../../store/useSetupStore';
 
+/* ─── Agilon.ai Top Bar ─── */
+
+function AgilonTopBar() {
+  return (
+    <div className="h-[40px] bg-[#1a1a1a] border-b border-border px-5 flex items-center justify-between flex-shrink-0">
+      <span className="text-sm font-bold text-[#22c55e]">Agilon.ai</span>
+      <div className="flex items-center gap-2">
+        <button className="px-3 py-1 bg-[#252525] border border-border rounded text-xs text-dark cursor-pointer hover:bg-[#333] transition-colors">
+          &lt;&gt; Code view
+        </button>
+        <button className="px-3 py-1 bg-[#252525] border border-border rounded text-xs text-dark cursor-pointer hover:bg-[#333] transition-colors">
+          Preview
+        </button>
+        <button className="px-3 py-1 bg-[#22c55e] border-none rounded text-xs text-white font-semibold cursor-pointer hover:bg-[#16a34a] transition-colors">
+          Deploy
+        </button>
+        <button className="px-3 py-1 bg-[#252525] border border-border rounded text-xs text-dark cursor-pointer hover:bg-[#333] transition-colors flex items-center gap-1">
+          💾 Save
+        </button>
+      </div>
+    </div>
+  );
+}
+
 interface DashboardLayoutProps {
   children: ReactNode;
   activePage: string;
@@ -117,7 +141,9 @@ export function DashboardLayout({ children, activePage, onNavigate }: DashboardL
   /* ═══════════ SIDEBAR LAYOUT (Template 2 / Classic) ═══════════ */
   if (isSidebar) {
     return (
-      <div className="flex h-screen bg-light overflow-hidden">
+      <div className="flex flex-col h-screen bg-light overflow-hidden">
+        <AgilonTopBar />
+        <div className="flex flex-1 overflow-hidden">
         {/* Left Sidebar */}
         <div className="w-[264px] flex-shrink-0 bg-[#0f1117] border-r border-border flex flex-col">
           {/* Brand */}
@@ -194,6 +220,7 @@ export function DashboardLayout({ children, activePage, onNavigate }: DashboardL
           <ChatInput chatOpen={chatOpen} setChatOpen={setChatOpen} query={query} setQuery={setQuery} handleSubmit={handleSubmit} />
           <BotChat open={chatOpen} onClose={() => setChatOpen(false)} />
         </main>
+        </div>
       </div>
     );
   }
@@ -201,6 +228,7 @@ export function DashboardLayout({ children, activePage, onNavigate }: DashboardL
   /* ═══════════ TOP BAR LAYOUT (Default) ═══════════ */
   return (
     <div className="flex flex-col h-screen bg-light overflow-hidden">
+      <AgilonTopBar />
       <DashboardTopBar activePage={activePage} onNavigate={onNavigate} />
       <main className="flex-1 overflow-y-auto relative">
         <div className="w-[1280px] mx-auto p-8">
