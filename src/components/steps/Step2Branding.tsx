@@ -44,48 +44,54 @@ export function Step2Branding() {
       <h2 className="text-2xl font-bold text-dark mb-1.5">Set up your brand</h2>
       <p className="text-gray text-[0.95rem] mb-5">Customize how your Agilon workspace looks and feels.</p>
 
-      {/* Templates — 40% width */}
-      <div className="w-[40%] mb-[120px]">
-        <label className="block font-semibold text-sm text-dark mb-1.5">
-          Choose a Template <span className="text-red">*</span>
-        </label>
-        <div className={`rounded-lg ${errors.template ? 'border-2 border-red p-0.5' : ''}`}>
-          <div className="grid grid-cols-2 gap-3">
-            {TEMPLATES.map((t) => (
-              <TemplateCard
-                key={t.id}
-                name={t.name}
-                description={t.description}
-                layout={t.layout}
-                sidebar={t.sidebar}
-                topbar={t.topbar}
-                accent={t.accent}
-                bg={t.bg}
-                cardBg={t.cardBg}
-                textLight={t.textLight}
-                selected={branding.template === t.id}
-                onClick={() => {
-                  updateBranding({ template: t.id as TemplateName });
-                  if (errors.template) setErrors((p) => ({ ...p, template: '' }));
-                }}
-              />
-            ))}
+      {/* Templates + Background Color — same row */}
+      <div className="flex gap-6 mb-6 items-start">
+        {/* Templates — 40% width */}
+        <div className="w-[40%] flex-shrink-0">
+          <label className="block font-semibold text-sm text-dark mb-1.5">
+            Choose a Template <span className="text-red">*</span>
+          </label>
+          <div className={`rounded-lg ${errors.template ? 'border-2 border-red p-0.5' : ''}`}>
+            <div className="grid grid-cols-2 gap-3">
+              {TEMPLATES.map((t) => (
+                <TemplateCard
+                  key={t.id}
+                  name={t.name}
+                  description={t.description}
+                  layout={t.layout}
+                  sidebar={t.sidebar}
+                  topbar={t.topbar}
+                  accent={t.accent}
+                  bg={t.bg}
+                  cardBg={t.cardBg}
+                  textLight={t.textLight}
+                  selected={branding.template === t.id}
+                  onClick={() => {
+                    updateBranding({ template: t.id as TemplateName });
+                    if (errors.template) setErrors((p) => ({ ...p, template: '' }));
+                  }}
+                />
+              ))}
+            </div>
           </div>
+          {errors.template && <p className="text-red text-xs mt-1">{errors.template}</p>}
         </div>
-        {errors.template && <p className="text-red text-xs mt-1">{errors.template}</p>}
+
+        {/* Background Color — right side */}
+        <div className="flex-1">
+          <ColorPicker
+            selected={branding.color}
+            onSelect={(color) => {
+              updateBranding({ color });
+              if (errors.color) setErrors((p) => ({ ...p, color: '' }));
+            }}
+            error={errors.color}
+          />
+        </div>
       </div>
 
-      {/* Brand Color + Upload Logo — same row */}
-      <div className="grid grid-cols-2 gap-6">
-        <ColorPicker
-          selected={branding.color}
-          onSelect={(color) => {
-            updateBranding({ color });
-            if (errors.color) setErrors((p) => ({ ...p, color: '' }));
-          }}
-          error={errors.color}
-        />
-
+      {/* Upload Logo */}
+      <div className="mb-2">
         <FileUpload
           logoName={branding.logoName}
           onFileSelect={(file) => updateBranding({ logoFile: file, logoName: file.name })}
