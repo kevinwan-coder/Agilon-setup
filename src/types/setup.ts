@@ -17,6 +17,7 @@ export interface Branding {
   logoFile: File | null;
   logoName: string;
   color: string;
+  bgColor: string;
 }
 
 export interface SetupData {

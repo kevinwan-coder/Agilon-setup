@@ -31,6 +31,7 @@ const initialBranding: Branding = {
   logoFile: null,
   logoName: '',
   color: '',
+  bgColor: '',
 };
 
 export const useSetupStore = create<SetupState>((set) => ({

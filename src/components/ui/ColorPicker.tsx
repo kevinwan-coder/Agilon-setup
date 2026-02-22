@@ -1,4 +1,4 @@
-import { BRAND_COLORS } from '../../constants/colors';
+import { BG_COLORS } from '../../constants/colors';
 
 interface ColorPickerProps {
   selected: string;
@@ -13,8 +13,8 @@ export function ColorPicker({ selected, onSelect, error }: ColorPickerProps) {
         Background Color <span className="text-red">*</span>
       </label>
       <p className="text-xs text-gray-light mb-2">Choose a background tone for your workspace</p>
-      <div className={`flex gap-2.5 flex-wrap ${error ? 'border-2 border-red rounded-lg p-1' : ''}`}>
-        {BRAND_COLORS.map((color) => (
+      <div className={`flex justify-between ${error ? 'border-2 border-red rounded-lg p-1' : ''}`}>
+        {BG_COLORS.map((color) => (
           <button
             key={color}
             type="button"
@@ -24,7 +24,7 @@ export function ColorPicker({ selected, onSelect, error }: ColorPickerProps) {
                 ? 'border-white shadow-[0_0_0_2px_#1a1a1a,0_0_0_4px_white]'
                 : 'border-transparent'
             }`}
-            style={{ backgroundColor: color }}
+            style={{ backgroundColor: color, border: color === '#ffffff' ? '2px solid #444' : undefined }}
             aria-label={`Select color ${color}`}
           />
         ))}

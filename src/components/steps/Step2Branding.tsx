@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react';
 import { useSetupStore } from '../../store/useSetupStore';
 import { brandingSchema } from '../../schemas/branding';
 import { TEMPLATES } from '../../constants/templates';
+import { BRAND_COLORS } from '../../constants/colors';
 import { TemplateCard } from '../ui/TemplateCard';
 import { FileUpload } from '../ui/FileUpload';
 import { ColorPicker } from '../ui/ColorPicker';
@@ -80,18 +81,43 @@ export function Step2Branding() {
         {/* Background Color — right side */}
         <div className="flex-1">
           <ColorPicker
-            selected={branding.color}
-            onSelect={(color) => {
-              updateBranding({ color });
-              if (errors.color) setErrors((p) => ({ ...p, color: '' }));
+            selected={branding.bgColor}
+            onSelect={(bgColor) => {
+              updateBranding({ bgColor });
             }}
-            error={errors.color}
           />
         </div>
       </div>
 
-      {/* Upload Logo */}
-      <div className="mb-2">
+      {/* Brand Color + Upload Logo — same row */}
+      <div className="grid grid-cols-2 gap-6">
+        <div>
+          <label className="block font-semibold text-sm text-dark mb-1.5">
+            Brand Color <span className="text-red">*</span>
+          </label>
+          <p className="text-xs text-gray-light mb-2">Choose a primary color for your workspace</p>
+          <div className={`flex gap-2.5 flex-wrap ${errors.color ? 'border-2 border-red rounded-lg p-1' : ''}`}>
+            {BRAND_COLORS.map((color) => (
+              <button
+                key={color}
+                type="button"
+                onClick={() => {
+                  updateBranding({ color });
+                  if (errors.color) setErrors((p) => ({ ...p, color: '' }));
+                }}
+                className={`w-11 h-11 rounded-lg cursor-pointer border-3 transition-all hover:scale-110 ${
+                  branding.color === color
+                    ? 'border-white shadow-[0_0_0_2px_#1a1a1a,0_0_0_4px_white]'
+                    : 'border-transparent'
+                }`}
+                style={{ backgroundColor: color }}
+                aria-label={`Select brand color ${color}`}
+              />
+            ))}
+          </div>
+          {errors.color && <p className="text-red text-xs mt-1">{errors.color}</p>}
+        </div>
+
         <FileUpload
           logoName={branding.logoName}
           onFileSelect={(file) => updateBranding({ logoFile: file, logoName: file.name })}
