@@ -41,6 +41,7 @@ const SIDEBAR_NAV = [
   { id: 'projects', label: 'Projects', icon: '📋' },
   { id: 'financial', label: 'Acc & Fin', icon: '📊' },
   { id: 'storage', label: 'Storage', icon: '☁️' },
+  { id: 'hr', label: 'HR', icon: '👤' },
   { id: 'settings', label: 'Settings', icon: '⚙️' },
 ];
 

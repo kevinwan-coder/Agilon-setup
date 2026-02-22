@@ -82,12 +82,13 @@ const TODO_ITEMS = [
 
 const DEPARTMENTS = [
   { name: 'Engineering', members: 3, tasks: 12, color: '#3b82f6', icon: '⚙️' },
-  { name: 'Design', members: 1, tasks: 5, color: '#7c3aed', icon: '🎨' },
-  { name: 'Finance', members: 1, tasks: 8, color: '#22c55e', icon: '💰' },
+  { name: 'Sales', members: 2, tasks: 9, color: '#22c55e', icon: '💼' },
+  { name: 'Support', members: 2, tasks: 15, color: '#f59e0b', icon: '🎧' },
+  { name: 'Shipping', members: 1, tasks: 6, color: '#7c3aed', icon: '📦' },
+  { name: 'RMA', members: 1, tasks: 4, color: '#ef4444', icon: '🔄' },
 ];
 
 const NEWS_ITEMS = ['Industry Updates', 'Tax Deadline Reminder', 'Market Trends'];
-const EVENT_ITEMS = ['Team Standup', 'Client Call - Dr. Wan', 'Sprint Review'];
 
 /* ─── Component ─── */
 
@@ -151,25 +152,25 @@ export function HomeSmallTeam() {
           </div>}
         </div>
 
-        {/* ═══════════ ROW 2: Team Overview ═══════════ */}
+        {/* ═══════════ ROW 2: Team Overview (60% size) ═══════════ */}
         <div className="flex gap-6 mb-24 mt-[15px]">
           <div className="flex-1">
-            <h2 className="text-lg font-bold text-dark mb-4">Team Overview</h2>
-            <div className="grid grid-cols-3 gap-4">
+            <h2 className="text-lg font-bold text-dark mb-3">Team Overview</h2>
+            <div className="grid grid-cols-3 gap-3" style={{ maxWidth: '60%' }}>
               {/* Team Members */}
-              <div className="bg-[#1a1a1a] rounded-2xl border border-border p-5">
-                <h3 className="text-sm font-bold text-[#3b82f6] mb-4">Team Members</h3>
-                <div className="space-y-3">
+              <div className="bg-[#1a1a1a] rounded-2xl border border-border p-3">
+                <h3 className="text-xs font-bold text-[#3b82f6] mb-3">Team Members</h3>
+                <div className="space-y-2">
                   {TEAM_MEMBERS.map((member) => (
-                    <div key={member.name} className="flex items-center gap-2">
-                      <div className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold text-white" style={{ backgroundColor: member.color }}>
+                    <div key={member.name} className="flex items-center gap-1.5">
+                      <div className="w-5 h-5 rounded-full flex items-center justify-center text-[8px] font-bold text-white" style={{ backgroundColor: member.color }}>
                         {member.name.split(' ').map(n => n[0]).join('')}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <div className="text-xs text-dark font-medium truncate">{member.name}</div>
-                        <div className="text-[10px] text-gray">{member.role}</div>
+                        <div className="text-[10px] text-dark font-medium truncate">{member.name}</div>
+                        <div className="text-[8px] text-gray">{member.role}</div>
                       </div>
-                      <div className={`w-2 h-2 rounded-full ${
+                      <div className={`w-1.5 h-1.5 rounded-full ${
                         member.status === 'online' ? 'bg-[#22c55e]' :
                         member.status === 'away' ? 'bg-[#f59e0b]' : 'bg-[#666]'
                       }`} />
@@ -179,12 +180,12 @@ export function HomeSmallTeam() {
               </div>
 
               {/* Company News */}
-              <div className="bg-[#1a1a1a] rounded-2xl border border-border p-5">
-                <h3 className="text-sm font-bold text-[#22c55e] mb-4">Company News</h3>
-                <div className="space-y-3">
+              <div className="bg-[#1a1a1a] rounded-2xl border border-border p-3">
+                <h3 className="text-xs font-bold text-[#22c55e] mb-3">Company News</h3>
+                <div className="space-y-2">
                   {NEWS_ITEMS.map((item) => (
-                    <div key={item} className="text-sm text-dark flex items-start gap-2">
-                      <span className="text-xs mt-0.5">📰</span>
+                    <div key={item} className="text-[11px] text-dark flex items-start gap-1.5">
+                      <span className="text-[9px] mt-0.5">📰</span>
                       {item}
                     </div>
                   ))}
@@ -203,64 +204,7 @@ export function HomeSmallTeam() {
           )}
         </div>
 
-        {/* ═══════════ ROW 3: What's New Today ═══════════ */}
-        <div className="mb-24">
-          <h2 className="text-lg font-bold text-dark mb-4">What's New Today?</h2>
-          <div className="grid grid-cols-3 gap-4">
-            {/* Team Schedule */}
-            <div className="bg-[#1a1a1a] rounded-2xl border border-border p-5">
-              <h3 className="text-sm font-bold text-[#f59e0b] mb-4">Team Schedule</h3>
-              <div className="space-y-3">
-                {EVENT_ITEMS.map((item) => (
-                  <div key={item} className="text-sm text-dark flex items-start gap-2">
-                    <span className="text-xs mt-0.5">📅</span>
-                    {item}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Open Tasks */}
-            <div className="bg-[#1a1a1a] rounded-2xl border border-border p-5">
-              <h3 className="text-sm font-bold text-[#ef4444] mb-4">Open Tasks</h3>
-              <div className="space-y-3">
-                <div className="text-sm text-dark flex items-start gap-2">
-                  <span className="text-xs mt-0.5">🔴</span>
-                  Q1 Report — <span className="text-[#ef4444] ml-1">Overdue</span>
-                </div>
-                <div className="text-sm text-dark flex items-start gap-2">
-                  <span className="text-xs mt-0.5">🟡</span>
-                  Client Proposal — <span className="text-[#f59e0b] ml-1">Due Today</span>
-                </div>
-                <div className="text-sm text-dark flex items-start gap-2">
-                  <span className="text-xs mt-0.5">🟢</span>
-                  Website Update — <span className="text-[#22c55e] ml-1">On Track</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Announcements */}
-            <div className="bg-[#1a1a1a] rounded-2xl border border-border p-5">
-              <h3 className="text-sm font-bold text-[#7c3aed] mb-4">Announcements</h3>
-              <div className="space-y-3">
-                <div className="text-sm text-dark flex items-start gap-2">
-                  <span className="text-xs mt-0.5">📢</span>
-                  New PTO policy effective March 1
-                </div>
-                <div className="text-sm text-dark flex items-start gap-2">
-                  <span className="text-xs mt-0.5">📢</span>
-                  Office hours updated
-                </div>
-                <div className="text-sm text-dark flex items-start gap-2">
-                  <span className="text-xs mt-0.5">📢</span>
-                  Team lunch Friday 12 PM
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* ═══════════ ROW 4: Departments ═══════════ */}
+        {/* ═══════════ ROW 3: Departments ═══════════ */}
         <div className="mb-24">
           <h2 className="text-lg font-bold text-dark mb-4">Departments</h2>
           <div className="flex gap-4">
@@ -283,9 +227,9 @@ export function HomeSmallTeam() {
           </div>
         </div>
 
-        {/* ═══════════ ROW 5: Shared Projects ═══════════ */}
+        {/* ═══════════ ROW 4: Projects ═══════════ */}
         <div className="mb-24">
-          <h2 className="text-lg font-bold text-dark mb-4">Shared Projects</h2>
+          <h2 className="text-lg font-bold text-dark mb-4">Projects</h2>
           <div className="flex gap-4">
             <div className="w-[140px] bg-[#1a1a1a] rounded-2xl border border-border overflow-hidden cursor-pointer hover:border-[#444] transition-colors">
               <div className="h-[70px] flex items-center justify-center">
