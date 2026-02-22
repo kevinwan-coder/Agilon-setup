@@ -201,27 +201,50 @@ export function HomeLanding() {
         {/* ═══════════ ROW 3: Projects ═══════════ */}
         <div className="mb-24">
           <div className="flex gap-4">
-            {/* Project 1 */}
+            {/* Projects */}
             <div className="w-[140px] bg-[#1a1a1a] rounded-2xl border border-border overflow-hidden cursor-pointer hover:border-[#444] transition-colors">
-              <div className="h-[70px] bg-[#252525] flex items-center justify-center">
-                <svg width="56" height="42" viewBox="0 0 80 60">
-                  <rect x="5" y="10" width="30" height="40" rx="3" fill="#3b82f6" opacity="0.6" />
-                  <rect x="25" y="5" width="30" height="40" rx="3" fill="#22c55e" opacity="0.6" />
-                  <rect x="45" y="15" width="30" height="40" rx="3" fill="#f59e0b" opacity="0.6" />
+              <div className="h-[70px] flex items-center justify-center">
+                <svg width="56" height="50" viewBox="0 0 56 50" fill="none">
+                  {/* Clipboard / Kanban board */}
+                  <rect x="8" y="4" width="40" height="44" rx="4" fill="none" stroke="#3b82f6" strokeWidth="2" opacity="0.8" />
+                  <rect x="8" y="4" width="40" height="10" rx="4" fill="#3b82f6" opacity="0.3" />
+                  <rect x="14" y="19" width="12" height="3" rx="1.5" fill="#22c55e" opacity="0.8" />
+                  <rect x="14" y="26" width="18" height="3" rx="1.5" fill="#f59e0b" opacity="0.8" />
+                  <rect x="14" y="33" width="10" height="3" rx="1.5" fill="#3b82f6" opacity="0.8" />
+                  <rect x="14" y="40" width="15" height="3" rx="1.5" fill="#22c55e" opacity="0.6" />
+                  {/* Checkmarks */}
+                  <path d="M34 20 L36 22 L40 18" stroke="#22c55e" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.9" />
+                  <path d="M34 27 L36 29 L40 25" stroke="#22c55e" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.9" />
                 </svg>
               </div>
-              <div className="px-3 py-2 text-xs font-semibold text-dark">Project 1</div>
+              <div className="px-3 py-2 text-xs font-semibold text-dark">Projects</div>
             </div>
-            {/* Project 2 */}
+            {/* Clients */}
             <div className="w-[140px] bg-[#1a1a1a] rounded-2xl border border-border overflow-hidden cursor-pointer hover:border-[#444] transition-colors">
-              <div className="h-[70px] bg-[#252525] flex items-center justify-center">
-                <svg width="56" height="42" viewBox="0 0 80 60">
-                  <circle cx="25" cy="30" r="18" fill="#7c3aed" opacity="0.6" />
-                  <circle cx="55" cy="25" r="14" fill="#ef4444" opacity="0.6" />
-                  <circle cx="45" cy="42" r="12" fill="#22d3ee" opacity="0.6" />
+              <div className="h-[70px] flex items-center justify-center">
+                <svg width="56" height="50" viewBox="0 0 56 50" fill="none">
+                  {/* Person 1 */}
+                  <circle cx="20" cy="16" r="7" fill="#3b82f6" opacity="0.7" />
+                  <path d="M8 42 C8 32 14 28 20 28 C26 28 32 32 32 42" fill="#3b82f6" opacity="0.5" />
+                  {/* Person 2 */}
+                  <circle cx="36" cy="16" r="7" fill="#22c55e" opacity="0.7" />
+                  <path d="M24 42 C24 32 30 28 36 28 C42 28 48 32 48 42" fill="#22c55e" opacity="0.5" />
                 </svg>
               </div>
-              <div className="px-3 py-2 text-xs font-semibold text-dark">Project 2</div>
+              <div className="px-3 py-2 text-xs font-semibold text-dark">Clients</div>
+            </div>
+            {/* Storage */}
+            <div className="w-[140px] bg-[#1a1a1a] rounded-2xl border border-border overflow-hidden cursor-pointer hover:border-[#444] transition-colors">
+              <div className="h-[70px] flex items-center justify-center">
+                <svg width="56" height="50" viewBox="0 0 56 50" fill="none">
+                  {/* Cloud */}
+                  <path d="M14 32 C8 32 4 28 4 23 C4 18 8 14 13 14 C14 8 20 4 27 4 C34 4 40 8 41 14 C46 14 52 18 52 24 C52 30 47 32 42 32 Z" fill="#7c3aed" opacity="0.4" stroke="#7c3aed" strokeWidth="1.5" opacity="0.7" />
+                  {/* Upload arrow */}
+                  <path d="M28 38 L28 22" stroke="#22d3ee" strokeWidth="2" strokeLinecap="round" opacity="0.9" />
+                  <path d="M22 28 L28 22 L34 28" stroke="#22d3ee" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" opacity="0.9" />
+                </svg>
+              </div>
+              <div className="px-3 py-2 text-xs font-semibold text-dark">Storage</div>
             </div>
             {/* + Card */}
             <div className="w-[140px] bg-[#1a1a1a] rounded-2xl border border-border flex items-center justify-center cursor-pointer transition-colors" style={{ borderColor: 'transparent' }} onMouseEnter={(e) => e.currentTarget.style.borderColor = brandColor} onMouseLeave={(e) => e.currentTarget.style.borderColor = 'transparent'}>
