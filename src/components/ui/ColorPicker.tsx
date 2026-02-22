@@ -10,9 +10,9 @@ export function ColorPicker({ selected, onSelect, error }: ColorPickerProps) {
   return (
     <div className="mb-4">
       <label className="block font-semibold text-sm text-dark mb-1.5">
-        Brand Color <span className="text-red">*</span>
+        Background Color <span className="text-red">*</span>
       </label>
-      <p className="text-xs text-gray-light mb-2">Choose a primary color for your workspace</p>
+      <p className="text-xs text-gray-light mb-2">Choose a background tone for your workspace</p>
       <div className={`flex gap-2.5 flex-wrap ${error ? 'border-2 border-red rounded-lg p-1' : ''}`}>
         {BRAND_COLORS.map((color) => (
           <button
