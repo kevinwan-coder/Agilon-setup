@@ -44,6 +44,15 @@ const SIDEBAR_NAV_DEFAULT = [
   { id: 'settings', label: 'Settings', icon: '⚙️' },
 ];
 
+const SIDEBAR_NAV_SMALL_TEAM = [
+  { id: 'clients', label: 'Clients', icon: '👥' },
+  { id: 'projects', label: 'Projects', icon: '📋' },
+  { id: 'financial', label: 'Acc & Fin', icon: '📊' },
+  { id: 'hr', label: 'HR', icon: '🤖' },
+  { id: 'storage', label: 'Files & Storage', icon: '☁️' },
+  { id: 'settings', label: 'Settings', icon: '⚙️' },
+];
+
 const SIDEBAR_NAV_ENTERPRISE = [
   { id: 'financial', label: 'Acc & Fin', icon: '🤖' },
   { id: 'hr', label: 'HR', icon: '🤖' },
@@ -147,8 +156,9 @@ export function DashboardLayout({ children, activePage, onNavigate }: DashboardL
 
   const isSidebar = template === 'classic';
   const size = businessInfo.size;
-  const isEnterprise = size === '11-50' || size === '50-plus';
-  const sidebarNav = isEnterprise ? SIDEBAR_NAV_ENTERPRISE : SIDEBAR_NAV_DEFAULT;
+  const sidebarNav = size === '2-10' ? SIDEBAR_NAV_SMALL_TEAM
+    : (size === '11-50' || size === '50-plus') ? SIDEBAR_NAV_ENTERPRISE
+    : SIDEBAR_NAV_DEFAULT;
 
   /* ═══════════ SIDEBAR LAYOUT (Template 2 / Classic) ═══════════ */
   if (isSidebar) {

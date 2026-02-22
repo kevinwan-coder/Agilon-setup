@@ -15,6 +15,15 @@ const LEFT_NAV_DEFAULT = [
   { id: 'settings', label: 'Settings', icon: '⚙️' },
 ];
 
+const LEFT_NAV_SMALL_TEAM = [
+  { id: 'clients', label: 'Clients', icon: '👥' },
+  { id: 'projects', label: 'Projects', icon: '📋' },
+  { id: 'financial', label: 'Acc & Fin', icon: '📊' },
+  { id: 'hr', label: 'HR', icon: '🤖' },
+  { id: 'storage', label: 'Files & Storage', icon: '☁️' },
+  { id: 'settings', label: 'Settings', icon: '⚙️' },
+];
+
 const LEFT_NAV_ENTERPRISE = [
   { id: 'financial', label: 'Acc & Fin', icon: '🤖' },
   { id: 'hr', label: 'HR', icon: '🤖' },
@@ -31,8 +40,9 @@ export function DashboardTopBar({ activePage, onNavigate }: DashboardTopBarProps
   const branding = useSetupStore((s) => s.branding);
   const skills = useSetupStore((s) => s.skills);
   const size = businessInfo.size;
-  const isEnterprise = size === '11-50' || size === '50-plus';
-  const leftNav = isEnterprise ? LEFT_NAV_ENTERPRISE : LEFT_NAV_DEFAULT;
+  const leftNav = size === '2-10' ? LEFT_NAV_SMALL_TEAM
+    : (size === '11-50' || size === '50-plus') ? LEFT_NAV_ENTERPRISE
+    : LEFT_NAV_DEFAULT;
 
   const activeSkills = SKILLS.filter((s) => skills.includes(s.id));
 

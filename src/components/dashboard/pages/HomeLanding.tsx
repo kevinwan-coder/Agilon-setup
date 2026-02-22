@@ -94,7 +94,9 @@ const EVENT_ITEMS = ["Dad's Birthday", 'Golf with Dr. Wan', 'Illini Game'];
 export function HomeLanding() {
   const brandColor = useSetupStore((s) => s.branding.color) || '#2dca72';
   const template = useSetupStore((s) => s.branding.template);
+  const size = useSetupStore((s) => s.businessInfo.size);
   const isSidebar = template === 'classic';
+  const isSmallTeam = size === '2-10';
 
   return (
     <div className="overflow-y-auto">
@@ -238,6 +240,34 @@ export function HomeLanding() {
               <span className="text-3xl mb-1" style={{ color: brandColor }}>+</span>
               <span className="text-xs text-gray">More Projects</span>
             </div>
+            {/* Front Desk — 2-10 only */}
+            {isSmallTeam && (
+              <div className="w-[140px] bg-[#1a1a1a] rounded-2xl border border-border overflow-hidden cursor-pointer hover:border-[#444] transition-colors">
+                <div className="h-[70px] flex items-center justify-center">
+                  <svg width="56" height="42" viewBox="0 0 80 60">
+                    <rect x="10" y="30" width="60" height="20" rx="4" fill="#3b82f6" opacity="0.5" />
+                    <rect x="20" y="20" width="15" height="15" rx="2" fill="#22c55e" opacity="0.7" />
+                    <circle cx="55" cy="18" r="10" fill="#f59e0b" opacity="0.6" />
+                  </svg>
+                </div>
+                <div className="px-3 py-2 text-xs font-semibold text-dark">Front Desk</div>
+              </div>
+            )}
+            {/* Massages — 2-10 only */}
+            {isSmallTeam && (
+              <div className="w-[140px] bg-[#1a1a1a] rounded-2xl border border-border overflow-hidden cursor-pointer hover:border-[#444] transition-colors">
+                <div className="h-[70px] flex items-center justify-center">
+                  <svg width="56" height="42" viewBox="0 0 80 60">
+                    <rect x="15" y="8" width="50" height="35" rx="4" fill="#7c3aed" opacity="0.4" />
+                    <rect x="20" y="14" width="35" height="4" rx="2" fill="#a78bfa" opacity="0.7" />
+                    <rect x="20" y="22" width="28" height="4" rx="2" fill="#a78bfa" opacity="0.7" />
+                    <rect x="20" y="30" width="20" height="4" rx="2" fill="#a78bfa" opacity="0.7" />
+                    <circle cx="60" cy="48" r="8" fill="#22c55e" opacity="0.6" />
+                  </svg>
+                </div>
+                <div className="px-3 py-2 text-xs font-semibold text-dark">Massages</div>
+              </div>
+            )}
           </div>
         </div>
 
