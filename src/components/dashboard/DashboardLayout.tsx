@@ -87,16 +87,17 @@ function SidebarCalendar() {
 
 /* ─── Chat Input (shared) ─── */
 
-function ChatInput({ chatOpen, setChatOpen, query, setQuery, handleSubmit }: {
+function ChatInput({ chatOpen, setChatOpen, query, setQuery, handleSubmit, bgColor }: {
   chatOpen: boolean;
   setChatOpen: (v: boolean) => void;
   query: string;
   setQuery: (v: string) => void;
   handleSubmit: () => void;
+  bgColor?: string;
 }) {
   return (
     <div className="sticky bottom-0 left-0 right-0 flex justify-center pb-4 pt-6 pointer-events-none"
-      style={{ background: 'linear-gradient(transparent, var(--color-light) 40%)' }}
+      style={{ background: `linear-gradient(transparent, ${bgColor || 'var(--color-light)'} 40%)` }}
     >
       <div className="relative flex items-center w-full max-w-[630px] pointer-events-auto">
         <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg opacity-70">🤖</span>
@@ -128,6 +129,7 @@ export function DashboardLayout({ children, activePage, onNavigate }: DashboardL
   const template = useSetupStore((s) => s.branding.template);
   const businessInfo = useSetupStore((s) => s.businessInfo);
   const brandColor = useSetupStore((s) => s.branding.color) || '#1a56db';
+  const bgColor = useSetupStore((s) => s.branding.bgColor);
 
   const handleSubmit = () => {
     if (!query.trim()) return;
@@ -141,7 +143,7 @@ export function DashboardLayout({ children, activePage, onNavigate }: DashboardL
   /* ═══════════ SIDEBAR LAYOUT (Template 2 / Classic) ═══════════ */
   if (isSidebar) {
     return (
-      <div className="flex flex-col h-screen bg-light overflow-hidden">
+      <div className="flex flex-col h-screen overflow-hidden" style={{ backgroundColor: bgColor || 'var(--color-light)' }}>
         <AgilonTopBar />
         <div className="flex flex-1 overflow-hidden">
         {/* Left Sidebar */}
@@ -217,7 +219,7 @@ export function DashboardLayout({ children, activePage, onNavigate }: DashboardL
             {children}
           </div>
 
-          <ChatInput chatOpen={chatOpen} setChatOpen={setChatOpen} query={query} setQuery={setQuery} handleSubmit={handleSubmit} />
+          <ChatInput chatOpen={chatOpen} setChatOpen={setChatOpen} query={query} setQuery={setQuery} handleSubmit={handleSubmit} bgColor={bgColor} />
           <BotChat open={chatOpen} onClose={() => setChatOpen(false)} />
         </main>
         </div>
@@ -227,7 +229,7 @@ export function DashboardLayout({ children, activePage, onNavigate }: DashboardL
 
   /* ═══════════ TOP BAR LAYOUT (Default) ═══════════ */
   return (
-    <div className="flex flex-col h-screen bg-light overflow-hidden">
+    <div className="flex flex-col h-screen overflow-hidden" style={{ backgroundColor: bgColor || 'var(--color-light)' }}>
       <AgilonTopBar />
       <DashboardTopBar activePage={activePage} onNavigate={onNavigate} />
       <main className="flex-1 overflow-y-auto relative">
@@ -235,7 +237,7 @@ export function DashboardLayout({ children, activePage, onNavigate }: DashboardL
           {children}
         </div>
 
-        <ChatInput chatOpen={chatOpen} setChatOpen={setChatOpen} query={query} setQuery={setQuery} handleSubmit={handleSubmit} />
+        <ChatInput chatOpen={chatOpen} setChatOpen={setChatOpen} query={query} setQuery={setQuery} handleSubmit={handleSubmit} bgColor={bgColor} />
         <BotChat open={chatOpen} onClose={() => setChatOpen(false)} />
       </main>
     </div>
