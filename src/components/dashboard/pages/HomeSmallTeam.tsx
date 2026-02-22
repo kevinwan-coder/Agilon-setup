@@ -1,6 +1,6 @@
 import { useSetupStore } from '../../../store/useSetupStore';
 
-/* ─────────────────── HomeSmallTeam (2-10) ─────────────────── */
+/* ─────────────────── HomeSmallTeam (11-50) ─────────────────── */
 
 /* ─── Team Performance Chart ─── */
 
