@@ -1,9 +1,11 @@
+import { useSetupStore } from '../../../store/useSetupStore';
+
 /* ─────────────────── HomeLanding ─────────────────── */
 
-/* ─── Mini Calendar ─── */
+/* ─── Mini Calendar (Monday start) ─── */
 
 function MiniCalendar() {
-  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const days = ['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU'];
   const dates = [
     [null, null, null, null, null, null, 1],
     [2, 3, 4, 5, 6, 7, 8],
@@ -11,25 +13,33 @@ function MiniCalendar() {
     [16, 17, 18, 19, 20, 21, 22],
     [23, 24, 25, 26, 27, 28, null],
   ];
-  const today = 21;
+  // Feb 2026 starts on Sunday. Monday-start: shift so Sun=last
+  const monDates = [
+    [null, null, null, null, null, null, 1],
+    [2, 3, 4, 5, 6, 7, 8],
+    [9, 10, 11, 12, 13, 14, 15],
+    [16, 17, 18, 19, 20, 21, 22],
+    [23, 24, 25, 26, 27, 28, null],
+  ];
+  // Actually for Monday start Feb 2026: Feb 1 = Sunday → col 7 (index 6)
+  // Week 1: _, _, _, _, _, _, 1
+  // Week 2: 2, 3, 4, 5, 6, 7, 8
+  // etc. — same layout since Feb 1 2026 is a Sunday
+  const today = 22;
 
   return (
     <div className="bg-[#1a1a1a] rounded-2xl border border-border p-5">
-      <div className="flex items-center justify-between mb-3">
+      <div className="text-center mb-3">
         <span className="text-sm font-bold text-dark">February 2026</span>
-        <div className="flex gap-2">
-          <button className="text-gray text-xs bg-transparent border-none cursor-pointer hover:text-dark">◀</button>
-          <button className="text-gray text-xs bg-transparent border-none cursor-pointer hover:text-dark">▶</button>
-        </div>
       </div>
       <div className="grid grid-cols-7 gap-1 text-center text-xs">
         {days.map((d) => (
           <div key={d} className="text-gray py-1 font-medium">{d}</div>
         ))}
-        {dates.flat().map((d, i) => (
+        {monDates.flat().map((d, i) => (
           <div
             key={i}
-            className={`py-1 rounded-lg ${
+            className={`py-1.5 rounded-lg ${
               d === today
                 ? 'bg-[#3b82f6] text-white font-bold'
                 : d
@@ -49,48 +59,21 @@ function MiniCalendar() {
 
 function PerformanceChart() {
   return (
-    <div>
-      <h3 className="text-sm font-bold text-dark mb-3">My Performance</h3>
-      <div className="bg-[#1a1a1a] rounded-2xl border border-border p-4">
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-xs font-semibold text-dark">Performance</span>
-          <button className="text-gray text-xs cursor-pointer bg-transparent border-none hover:text-dark">⋮</button>
-        </div>
-        <svg width="100%" height="78" viewBox="0 0 200 78" preserveAspectRatio="none">
-          {/* Grid lines */}
-          <line x1="30" y1="5" x2="30" y2="65" stroke="#333" strokeWidth="0.5" />
-          <line x1="30" y1="65" x2="190" y2="65" stroke="#333" strokeWidth="0.5" />
-          {/* Horizontal grid */}
-          <line x1="30" y1="15" x2="190" y2="15" stroke="#252525" strokeWidth="0.5" strokeDasharray="2" />
-          <line x1="30" y1="30" x2="190" y2="30" stroke="#252525" strokeWidth="0.5" strokeDasharray="2" />
-          <line x1="30" y1="45" x2="190" y2="45" stroke="#252525" strokeWidth="0.5" strokeDasharray="2" />
-          <line x1="30" y1="55" x2="190" y2="55" stroke="#252525" strokeWidth="0.5" strokeDasharray="2" />
-          {/* Y-axis labels */}
-          <text x="25" y="18" textAnchor="end" fill="#666" fontSize="7">800</text>
-          <text x="25" y="33" textAnchor="end" fill="#666" fontSize="7">600</text>
-          <text x="25" y="48" textAnchor="end" fill="#666" fontSize="7">400</text>
-          <text x="25" y="58" textAnchor="end" fill="#666" fontSize="7">200</text>
-          <text x="25" y="68" textAnchor="end" fill="#666" fontSize="7">0</text>
-          {/* X-axis labels */}
-          <text x="50" y="75" textAnchor="middle" fill="#666" fontSize="7">A</text>
-          <text x="90" y="75" textAnchor="middle" fill="#666" fontSize="7">B</text>
-          <text x="130" y="75" textAnchor="middle" fill="#666" fontSize="7">C</text>
-          <text x="170" y="75" textAnchor="middle" fill="#666" fontSize="7">D</text>
-          <text x="190" y="75" textAnchor="middle" fill="#666" fontSize="7">E</text>
-          {/* Area fill */}
-          <path d="M 30 60 C 50 55, 70 45, 90 35 C 110 25, 130 18, 150 12 C 165 8, 175 6, 190 5 L 190 65 L 30 65 Z"
-            fill="url(#perfGrad)" opacity="0.3" />
-          {/* Curve */}
-          <path d="M 30 60 C 50 55, 70 45, 90 35 C 110 25, 130 18, 150 12 C 165 8, 175 6, 190 5"
-            fill="none" stroke="#22d3ee" strokeWidth="2" strokeLinecap="round" />
-          <defs>
-            <linearGradient id="perfGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.4" />
-              <stop offset="100%" stopColor="#22d3ee" stopOpacity="0" />
-            </linearGradient>
-          </defs>
-        </svg>
-      </div>
+    <div className="bg-[#1a1a1a] rounded-2xl border border-border p-5 h-full">
+      <h3 className="text-sm font-bold text-[#22c55e] mb-4">My Performance</h3>
+      <svg width="100%" height="100" viewBox="0 0 200 100" preserveAspectRatio="none">
+        {/* Axes */}
+        <line x1="20" y1="10" x2="20" y2="85" stroke="#333" strokeWidth="0.5" />
+        <line x1="20" y1="85" x2="190" y2="85" stroke="#333" strokeWidth="0.5" />
+        {/* Curve */}
+        <path
+          d="M 20 80 C 40 75, 60 65, 80 55 C 100 45, 120 30, 140 25 C 155 22, 165 28, 175 35 L 190 40"
+          fill="none"
+          stroke="#22d3ee"
+          strokeWidth="2"
+          strokeLinecap="round"
+        />
+      </svg>
     </div>
   );
 }
@@ -98,26 +81,30 @@ function PerformanceChart() {
 /* ─── Data ─── */
 
 const TODO_ITEMS = [
-  { label: 'Company Setup', value: 'Unfinished', isAlert: true },
-  { label: 'Payment', value: 'Approval', isAlert: false },
-  { label: 'Next Appoint', value: '3:30 PM', isAlert: false },
-  { label: 'Replies', value: '2, 8', isAlert: true, splitValues: { urgent: '2', normal: '8' } },
+  { label: 'Company Setup', value: 'Unfinished', color: 'text-[#ef4444]' },
+  { label: 'Payment', value: 'Approval', color: 'text-[#f59e0b]' },
+  { label: 'Next Appoint', value: '3:30 PM', color: 'text-dark' },
+  { label: 'Messages', value: '2, 8', color: 'text-dark', splitValues: { urgent: '2', normal: '8' } },
 ];
 
-const NEWS_ITEMS = ['Financial Updates', 'News', 'Sports'];
+const NEWS_ITEMS = ['Financial Updates', 'Freelance News', 'Global Tech'];
 const EVENT_ITEMS = ["Dad's Birthday", 'Golf with Dr. Wan', 'Illini Game'];
 
 /* ─── Component ─── */
 
 export function HomeLanding() {
+  const brandColor = useSetupStore((s) => s.branding.color) || '#2dca72';
+  const template = useSetupStore((s) => s.branding.template);
+  const isSidebar = template === 'classic';
+
   return (
     <div className="overflow-y-auto">
       <div className="pt-2 pb-10">
 
         {/* ═══════════ ROW 1: To Do List + Financial Summary ═══════════ */}
-        <div className="flex gap-6 mb-8 items-start">
-          {/* Left — To Do List */}
-          <div className="flex-1">
+        <div className={isSidebar ? 'mb-[5px]' : 'flex gap-6 mb-[5px] items-start'}>
+          {/* To Do List */}
+          <div className={isSidebar ? '' : 'flex-1'}>
             <h2 className="text-lg font-bold text-dark mb-4">To Do List</h2>
             <div className="flex gap-4 justify-start">
               {TODO_ITEMS.map((item) => (
@@ -130,16 +117,20 @@ export function HomeLanding() {
                     {item.splitValues ? (
                       <><span className="text-[#ef4444]">{item.splitValues.urgent}</span><span className="text-dark">, {item.splitValues.normal}</span></>
                     ) : (
-                      <span className={item.isAlert ? 'text-[#ef4444]' : 'text-dark'}>{item.value}</span>
+                      <span className={item.color}>{item.value}</span>
                     )}
                   </div>
                 </div>
               ))}
+              {/* + Card */}
+              <div className="w-[120px] flex-shrink-0 bg-[#1a1a1a] rounded-2xl border border-border px-4 py-4 flex items-center justify-center cursor-pointer transition-colors" onMouseEnter={(e) => e.currentTarget.style.borderColor = brandColor} onMouseLeave={(e) => e.currentTarget.style.borderColor = ''}>
+                <span className="text-2xl" style={{ color: brandColor }}>+</span>
+              </div>
             </div>
           </div>
 
-          {/* Right — Financial Summary */}
-          <div className="w-[260px] flex-shrink-0 mt-[36px]">
+          {/* Financial Summary — below cards in sidebar mode, beside in default */}
+          <div className={isSidebar ? 'w-[260px] mt-4' : 'w-[260px] flex-shrink-0 mt-[36px]'}>
             <div className="bg-[#1a1a1a] rounded-2xl border border-border p-5">
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
@@ -156,8 +147,8 @@ export function HomeLanding() {
                   <span className="text-dark font-semibold">$3,758.25</span>
                 </div>
                 <div className="border-t border-border pt-2 flex justify-between">
-                  <span className="text-gray">Balance:</span>
-                  <span className="text-dark font-bold">—</span>
+                  <span className="text-gray">Net Balance:</span>
+                  <span className="text-[#22c55e] font-bold">$13,773.25</span>
                 </div>
               </div>
             </div>
@@ -165,50 +156,77 @@ export function HomeLanding() {
         </div>
 
         {/* ═══════════ ROW 2: What's New Today + Calendar ═══════════ */}
-        <div className="flex gap-6 mb-6 mt-[-5px]">
+        <div className="flex gap-6 mb-8 mt-[5px]">
           {/* Left — What's New Today */}
           <div className="flex-1">
-            <h2 className="text-lg font-bold text-dark mb-4">What's New Today ?</h2>
-            <div className="grid grid-cols-3 gap-6">
+            <h2 className="text-lg font-bold text-dark mb-4">What's New Today?</h2>
+            <div className="grid grid-cols-3 gap-4">
               {/* Subscribed News */}
-              <div>
-                <h3 className="text-sm font-bold text-dark mb-3">Subscribed News Update</h3>
-                <div className="space-y-2">
+              <div className="bg-[#1a1a1a] rounded-2xl border border-border p-5">
+                <h3 className="text-sm font-bold text-[#22c55e] mb-4">Subscribed News</h3>
+                <div className="space-y-3">
                   {NEWS_ITEMS.map((item) => (
-                    <div key={item} className="text-sm text-gray">• {item}</div>
+                    <div key={item} className="text-sm text-dark flex items-start gap-2">
+                      <span className="text-xs mt-0.5">📰</span>
+                      {item}
+                    </div>
                   ))}
                 </div>
               </div>
-              {/* Upcoming Events */}
-              <div>
-                <h3 className="text-sm font-bold text-dark mb-3">Upcoming Events</h3>
-                <div className="space-y-2">
+              {/* My Events */}
+              <div className="bg-[#1a1a1a] rounded-2xl border border-border p-5">
+                <h3 className="text-sm font-bold text-[#f59e0b] mb-4">My Events</h3>
+                <div className="space-y-3">
                   {EVENT_ITEMS.map((item) => (
-                    <div key={item} className="text-sm text-gray">• {item}</div>
+                    <div key={item} className="text-sm text-dark flex items-start gap-2">
+                      <span className="text-xs mt-0.5">📰</span>
+                      {item}
+                    </div>
                   ))}
                 </div>
               </div>
-              {/* Performance */}
+              {/* My Performance */}
               <PerformanceChart />
             </div>
           </div>
 
-          {/* Right — Calendar */}
-          <div className="w-[260px] flex-shrink-0 mt-[60px]">
-            <MiniCalendar />
-          </div>
+          {/* Right — Calendar (hidden in sidebar mode) */}
+          {!isSidebar && (
+            <div className="w-[260px] flex-shrink-0 mt-[40px]">
+              <MiniCalendar />
+            </div>
+          )}
         </div>
 
-        {/* ═══════════ ROW 3: Quick Access ═══════════ */}
+        {/* ═══════════ ROW 3: Projects ═══════════ */}
         <div className="mb-8">
           <div className="flex gap-4">
-            <button className="w-[200px] h-[80px] bg-[#1a1a1a] rounded-2xl border border-border flex items-center justify-center gap-3 text-sm font-semibold text-dark cursor-pointer hover:border-[#444] hover:bg-[#1e1e1e] transition-colors">
-              <span className="text-xl">📁</span>
-              Projects
-            </button>
-            <button className="w-[200px] h-[80px] bg-[#1a1a1a] rounded-2xl border border-border text-2xl text-gray cursor-pointer hover:border-[#444] hover:text-dark transition-colors flex items-center justify-center">
-              +
-            </button>
+            {/* Project 1 */}
+            <div className="w-[140px] bg-[#1a1a1a] rounded-2xl border border-border overflow-hidden cursor-pointer hover:border-[#444] transition-colors">
+              <div className="h-[70px] bg-[#252525] flex items-center justify-center">
+                <svg width="56" height="42" viewBox="0 0 80 60">
+                  <rect x="5" y="10" width="30" height="40" rx="3" fill="#3b82f6" opacity="0.6" />
+                  <rect x="25" y="5" width="30" height="40" rx="3" fill="#22c55e" opacity="0.6" />
+                  <rect x="45" y="15" width="30" height="40" rx="3" fill="#f59e0b" opacity="0.6" />
+                </svg>
+              </div>
+              <div className="px-3 py-2 text-xs font-semibold text-dark">Project 1</div>
+            </div>
+            {/* Project 2 */}
+            <div className="w-[140px] bg-[#1a1a1a] rounded-2xl border border-border overflow-hidden cursor-pointer hover:border-[#444] transition-colors">
+              <div className="h-[70px] bg-[#252525] flex items-center justify-center">
+                <svg width="56" height="42" viewBox="0 0 80 60">
+                  <circle cx="25" cy="30" r="18" fill="#7c3aed" opacity="0.6" />
+                  <circle cx="55" cy="25" r="14" fill="#ef4444" opacity="0.6" />
+                  <circle cx="45" cy="42" r="12" fill="#22d3ee" opacity="0.6" />
+                </svg>
+              </div>
+              <div className="px-3 py-2 text-xs font-semibold text-dark">Project 2</div>
+            </div>
+            {/* + Card */}
+            <div className="w-[140px] bg-[#1a1a1a] rounded-2xl border border-border flex items-center justify-center cursor-pointer transition-colors" style={{ borderColor: 'transparent' }} onMouseEnter={(e) => e.currentTarget.style.borderColor = brandColor} onMouseLeave={(e) => e.currentTarget.style.borderColor = 'transparent'}>
+              <span className="text-5xl" style={{ color: brandColor }}>+</span>
+            </div>
           </div>
         </div>
 
