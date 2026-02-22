@@ -8,10 +8,10 @@ interface DashboardTopBarProps {
 
 const LEFT_NAV = [
   { id: 'home', label: 'Dashboard', icon: '🏠' },
-  { id: 'clients', label: 'Clients', icon: '👤' },
-  { id: 'projects', label: 'Projects', icon: '📂' },
+  { id: 'clients', label: 'Clients', icon: '👥' },
+  { id: 'projects', label: 'Projects', icon: '📋' },
   { id: 'financial', label: 'Acc & Fin', icon: '📊' },
-  { id: 'storage', label: 'Storage', icon: '📁' },
+  { id: 'storage', label: 'Storage', icon: '☁️' },
   { id: 'settings', label: 'Settings', icon: '⚙️' },
 ];
 
