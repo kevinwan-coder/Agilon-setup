@@ -18,7 +18,7 @@ export function HomePage() {
     case 'just-me':
       return <HomeLanding />;
     case '2-10':
-      return <BlankPage />;
+      return <HomeLanding />;
     case '11-50':
       return <HomeSmallTeam />;
     case '50-plus':
