@@ -40,14 +40,14 @@ const SIDEBAR_NAV_DEFAULT = [
   { id: 'clients', label: 'Clients', icon: '👥' },
   { id: 'projects', label: 'Projects', icon: '📋' },
   { id: 'financial', label: 'Acc & Fin', icon: '📊' },
-  { id: 'storage', label: 'Storage', icon: '☁️' },
+  { id: 'storage', label: 'Files & Storage', icon: '☁️' },
   { id: 'settings', label: 'Settings', icon: '⚙️' },
 ];
 
 const SIDEBAR_NAV_ENTERPRISE = [
   { id: 'financial', label: 'Acc & Fin', icon: '🤖' },
   { id: 'hr', label: 'HR', icon: '🤖' },
-  { id: 'storage', label: 'Storage', icon: '☁️' },
+  { id: 'storage', label: 'Files & Storage', icon: '☁️' },
   { id: 'settings', label: 'Settings', icon: '⚙️' },
 ];
 
