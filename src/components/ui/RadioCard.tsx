@@ -11,7 +11,7 @@ export function RadioCard({ icon, label, description, selected, onClick }: Radio
     <button
       type="button"
       onClick={onClick}
-      className={`card-orbit w-[153px] h-[85px] border-2 rounded-lg p-2 text-center cursor-pointer transition-all flex flex-col items-center justify-center ${
+      className={`w-[153px] h-[85px] border-2 rounded-lg p-2 text-center cursor-pointer transition-all flex flex-col items-center justify-center ${
         selected ? 'border-[#7ee8a8]' : 'border-border hover:border-[#7ee8a8]'
       }`}
       style={{
