@@ -31,7 +31,7 @@ export function LandingPage() {
         <h1 className="text-5xl font-semibold text-white mb-3 leading-tight">
           Build your complete
         </h1>
-        <h2 className="text-6xl font-bold text-[#2dca72] mb-3 leading-tight">
+        <h2 className="text-6xl font-bold text-[#1fa855] mb-3 leading-tight">
           Business Automation Platform
         </h2>
         <p className="text-4xl font-semibold text-white mb-12">
@@ -41,7 +41,7 @@ export function LandingPage() {
         {/* CTA Button */}
         <button
           onClick={() => setStep(1)}
-          className="px-10 py-4 bg-[#2dca72] text-white text-lg font-semibold rounded-xl cursor-pointer border-none hover:bg-[#25a85f] transition-colors shadow-[0_4px_30px_rgba(45,202,114,0.3)] hover:shadow-[0_4px_40px_rgba(45,202,114,0.5)] mb-12"
+          className="px-10 py-4 bg-[#1fa855] text-white text-lg font-semibold rounded-xl cursor-pointer border-none hover:bg-[#178a45] transition-colors shadow-[0_4px_30px_rgba(45,202,114,0.3)] hover:shadow-[0_4px_40px_rgba(45,202,114,0.5)] mb-12"
         >
           Start Building
         </button>
@@ -49,21 +49,21 @@ export function LandingPage() {
         {/* Trust badges */}
         <div className="flex items-center gap-8">
           <div className="flex items-center gap-2">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2dca72" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1fa855" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="12" cy="12" r="10" />
               <path d="M9 12l2 2 4-4" />
             </svg>
             <span className="text-sm text-gray">No coding required</span>
           </div>
           <div className="flex items-center gap-2">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2dca72" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1fa855" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="12" cy="12" r="10" />
               <path d="M12 6v6l4 2" />
             </svg>
             <span className="text-sm text-gray">Ready in minutes</span>
           </div>
           <div className="flex items-center gap-2">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2dca72" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1fa855" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
             </svg>
             <span className="text-sm text-gray">Enterprise-grade security</span>
