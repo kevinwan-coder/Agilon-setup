@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react';
+import { useState, useEffect, type ReactNode } from 'react';
 import { DashboardTopBar } from './DashboardTopBar';
 import { BotChat } from './BotChat';
 import { useSetupStore } from '../../store/useSetupStore';
@@ -148,6 +148,38 @@ export function DashboardLayout({ children, activePage, onNavigate }: DashboardL
   const businessInfo = useSetupStore((s) => s.businessInfo);
   const brandColor = useSetupStore((s) => s.branding.color) || '#1a56db';
   const bgColor = useSetupStore((s) => s.branding.bgColor);
+
+  // Dynamically flip text/border colors based on bgColor brightness
+  useEffect(() => {
+    const root = document.documentElement;
+    if (!bgColor) return;
+    // Parse hex to brightness (0-255)
+    const hex = bgColor.replace('#', '');
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
+    const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+    const isLight = brightness > 128;
+
+    if (isLight) {
+      root.style.setProperty('--color-dark', '#1a1a1a');
+      root.style.setProperty('--color-gray', '#555555');
+      root.style.setProperty('--color-gray-light', '#888888');
+      root.style.setProperty('--color-border', '#cccccc');
+    } else {
+      root.style.setProperty('--color-dark', '#e8e8e8');
+      root.style.setProperty('--color-gray', '#888888');
+      root.style.setProperty('--color-gray-light', '#555555');
+      root.style.setProperty('--color-border', '#333333');
+    }
+
+    return () => {
+      root.style.removeProperty('--color-dark');
+      root.style.removeProperty('--color-gray');
+      root.style.removeProperty('--color-gray-light');
+      root.style.removeProperty('--color-border');
+    };
+  }, [bgColor]);
 
   const handleSubmit = () => {
     if (!query.trim()) return;
