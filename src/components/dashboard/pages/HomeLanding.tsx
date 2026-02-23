@@ -260,7 +260,7 @@ export function HomeLanding() {
                     <circle cx="60" cy="48" r="8" fill="#22c55e" opacity="0.6" />
                   </svg>
                 </div>
-                <div className="px-3 py-2 text-xs font-semibold text-dark">Massages</div>
+                <div className="px-3 py-2 text-xs font-semibold text-dark">Message</div>
               </div>
             )}
             {/* + Card */}
