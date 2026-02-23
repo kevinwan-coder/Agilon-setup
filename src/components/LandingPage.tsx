@@ -41,7 +41,7 @@ export function LandingPage() {
         {/* CTA Button */}
         <button
           onClick={() => setStep(1)}
-          className="px-10 py-4 bg-[#1fa855] text-white text-lg font-semibold rounded-xl cursor-pointer border-none hover:bg-[#178a45] transition-colors shadow-[0_4px_30px_rgba(45,202,114,0.3)] hover:shadow-[0_4px_40px_rgba(45,202,114,0.5)] mb-12"
+          className="btn-flash px-10 py-4 bg-[#1fa855] text-white text-lg font-semibold rounded-xl cursor-pointer border-none hover:bg-[#178a45] transition-colors shadow-[0_4px_30px_rgba(45,202,114,0.3)] hover:shadow-[0_4px_40px_rgba(45,202,114,0.5)] mb-12"
         >
           Start Building
         </button>
