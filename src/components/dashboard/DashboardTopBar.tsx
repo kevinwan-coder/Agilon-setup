@@ -28,6 +28,8 @@ const LEFT_NAV_ENTERPRISE = [
   { id: 'financial', label: 'Acc & Fin', icon: '🤖' },
   { id: 'hr', label: 'HR', icon: '🤖' },
   { id: 'storage', label: 'Files & Storage', icon: '☁️' },
+  { id: 'it', label: 'IT', icon: '💻' },
+  { id: 'legal', label: 'Legal', icon: '⚖️' },
   { id: 'settings', label: 'Settings', icon: '⚙️' },
 ];
 
