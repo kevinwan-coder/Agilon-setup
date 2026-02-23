@@ -1,12 +1,16 @@
+import { useSetupStore } from '../../store/useSetupStore';
+
 export function TopBar() {
+  const setStep = useSetupStore((s) => s.setStep);
+
   return (
     <nav className="bg-[#0a0a0a] px-8 py-3 flex items-center justify-between">
       {/* Logo */}
-      <div className="text-xl font-bold">
+      <button onClick={() => setStep(0)} className="text-xl font-bold bg-transparent border-none cursor-pointer p-0">
         <span className="text-[#2dca72]">A</span>
         <span className="text-dark">gilon</span>
         <span className="text-gray">.AI</span>
-      </div>
+      </button>
 
       {/* Center nav links */}
       <div className="flex items-center gap-8">
