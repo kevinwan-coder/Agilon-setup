@@ -3,14 +3,6 @@ import { HomeLanding } from './HomeLanding';
 import { HomeSmallTeam } from './HomeSmallTeam';
 import { HomeEnterprise } from './HomeEnterprise';
 
-function BlankPage() {
-  return (
-    <div className="flex items-center justify-center h-full">
-      <p className="text-gray text-sm">Coming soon</p>
-    </div>
-  );
-}
-
 export function HomePage() {
   const size = useSetupStore((s) => s.businessInfo.size);
 

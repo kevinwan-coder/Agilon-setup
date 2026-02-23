@@ -33,10 +33,6 @@ const LEFT_NAV_ENTERPRISE = [
   { id: 'settings', label: 'Settings', icon: '⚙️' },
 ];
 
-const RIGHT_NAV = [
-  { id: 'calendar', label: 'Calendar', icon: '📅' },
-];
-
 export function DashboardTopBar({ activePage, onNavigate }: DashboardTopBarProps) {
   const businessInfo = useSetupStore((s) => s.businessInfo);
   const branding = useSetupStore((s) => s.branding);
