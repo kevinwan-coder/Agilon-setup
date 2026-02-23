@@ -1,4 +1,4 @@
-export type CompanySize = 'just-me' | '2-10' | '11-50' | '50-plus';
+export type CompanySize = 'starting' | 'just-me' | '2-10' | '11-50' | '50-plus';
 
 export type TemplateName = 'classic' | 'modern';
 

@@ -12,10 +12,11 @@ import { StepCard } from '../layout/StepCard';
 import type { CompanySize } from '../../types/setup';
 
 const SIZES: { value: CompanySize; icon: string; label: string; desc: string }[] = [
-  { value: 'just-me', icon: '\uD83D\uDC64', label: 'Just Me', desc: 'Sole proprietor' },
-  { value: '2-10', icon: '\uD83D\uDC65', label: '2\u201310', desc: 'Small team' },
-  { value: '11-50', icon: '\uD83D\uDC65', label: '11\u201350', desc: 'Mid-size team' },
-  { value: '50-plus', icon: '\uD83C\uDFE2', label: 'Over 50', desc: 'Large organization' },
+  { value: 'starting', icon: '🚀', label: 'Starting', desc: 'New business' },
+  { value: 'just-me', icon: '👤', label: 'Just Me', desc: 'Sole proprietor' },
+  { value: '2-10', icon: '👥', label: '2–10', desc: 'Small team' },
+  { value: '11-50', icon: '👥', label: '11–50', desc: 'Mid-size team' },
+  { value: '50-plus', icon: '🏢', label: 'Over 50', desc: 'Large organization' },
 ];
 
 export function Step1BusinessInfo() {

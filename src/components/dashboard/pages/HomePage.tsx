@@ -15,6 +15,8 @@ export function HomePage() {
   const size = useSetupStore((s) => s.businessInfo.size);
 
   switch (size) {
+    case 'starting':
+      return <HomeLanding />;
     case 'just-me':
       return <HomeLanding />;
     case '2-10':
