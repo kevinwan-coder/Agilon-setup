@@ -46,10 +46,11 @@ export function DashboardTopBar({ activePage, onNavigate }: DashboardTopBarProps
     : (size === '11-50' || size === '50-plus') ? LEFT_NAV_ENTERPRISE
     : LEFT_NAV_DEFAULT;
 
+  const bgColor = branding.bgColor;
   const activeSkills = SKILLS.filter((s) => skills.includes(s.id));
 
   return (
-    <div className="bg-[#1a1a1a] border-b border-border px-6 flex items-center gap-6 flex-shrink-0 h-[56px]">
+    <div className="border-b border-border px-6 flex items-center gap-6 flex-shrink-0 h-[56px]" style={{ backgroundColor: bgColor || '#1a1a1a' }}>
       {/* Left — Company Name (click to go home) */}
       <div className="flex items-center gap-3 flex-shrink-0 cursor-pointer" onClick={() => onNavigate('home')}>
         <div className="text-lg font-bold" style={{ color: branding.color || '#1a56db' }}>

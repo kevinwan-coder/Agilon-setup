@@ -169,7 +169,7 @@ export function DashboardLayout({ children, activePage, onNavigate }: DashboardL
         <AgilonTopBar />
         <div className="flex flex-1 overflow-hidden">
         {/* Left Sidebar */}
-        <div className="w-[264px] flex-shrink-0 bg-[#0f1117] border-r border-border flex flex-col">
+        <div className="w-[264px] flex-shrink-0 border-r border-border flex flex-col" style={{ backgroundColor: bgColor || '#0f1117' }}>
           {/* Brand */}
           <div className="px-5 py-5 flex items-center gap-2 cursor-pointer" onClick={() => onNavigate('home')}>
             <span className="text-xl">☁️</span>
