@@ -40,33 +40,41 @@ body {
   animation: flash-shimmer 2.5s ease-in-out infinite;
 }
 
-/* Orbiting dot effect for cards */
-@keyframes orbit-dot {
-  0%   { top: 100%; left: 50%; }
-  12.5%  { top: 100%; left: 0%; }
-  25%  { top: 50%; left: 0%; }
-  37.5%  { top: 0%; left: 0%; }
-  50%  { top: 0%; left: 50%; }
-  62.5%  { top: 0%; left: 100%; }
-  75%  { top: 50%; left: 100%; }
-  87.5%  { top: 100%; left: 100%; }
-  100% { top: 100%; left: 50%; }
-}
-
+/* Glass card effect with inner border and shading */
 .card-orbit {
   position: relative;
-  overflow: visible;
+  overflow: hidden;
 }
 
+/* Inner border line (glass effect) */
+.card-orbit::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.04) 0%,
+    transparent 40%,
+    transparent 60%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Small white dot at top center of inner border */
 .card-orbit::after {
   content: '';
   position: absolute;
-  width: 6px;
-  height: 6px;
+  top: 3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+  height: 5px;
   background: white;
   border-radius: 50%;
-  box-shadow: 0 0 8px 2px rgba(255, 255, 255, 0.6);
-  animation: orbit-dot 4s linear infinite;
-  z-index: 10;
-  transform: translate(-50%, -50%);
+  box-shadow: 0 0 6px 1px rgba(255, 255, 255, 0.5);
+  z-index: 2;
 }
