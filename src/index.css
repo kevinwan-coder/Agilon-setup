@@ -39,3 +39,34 @@ body {
   background-size: 200% 100%;
   animation: flash-shimmer 2.5s ease-in-out infinite;
 }
+
+/* Orbiting dot effect for cards */
+@keyframes orbit-dot {
+  0%   { top: 100%; left: 50%; }
+  12.5%  { top: 100%; left: 0%; }
+  25%  { top: 50%; left: 0%; }
+  37.5%  { top: 0%; left: 0%; }
+  50%  { top: 0%; left: 50%; }
+  62.5%  { top: 0%; left: 100%; }
+  75%  { top: 50%; left: 100%; }
+  87.5%  { top: 100%; left: 100%; }
+  100% { top: 100%; left: 50%; }
+}
+
+.card-orbit {
+  position: relative;
+  overflow: visible;
+}
+
+.card-orbit::after {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 0 8px 2px rgba(255, 255, 255, 0.6);
+  animation: orbit-dot 4s linear infinite;
+  z-index: 10;
+  transform: translate(-50%, -50%);
+}
