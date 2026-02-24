@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { AddNewModal } from '../AddNewModal';
 
 /* ─── Department Tabs ─── */
 const DEPARTMENTS = ['Dashboard', 'HR', 'Accounting', 'IT', 'Legal'];
@@ -178,11 +179,18 @@ function CalendarWidget() {
 }
 
 /* ─── Main Enterprise Dashboard ─── */
-export function HomeEnterprise() {
+
+interface HomeEnterpriseProps {
+  onNavigate?: (page: string) => void;
+}
+
+export function HomeEnterprise({ onNavigate }: HomeEnterpriseProps) {
   const [activeDept, setActiveDept] = useState('Dashboard');
+  const [showAddModal, setShowAddModal] = useState(false);
 
   return (
     <div>
+      <AddNewModal open={showAddModal} onClose={() => setShowAddModal(false)} onNavigate={onNavigate} />
       {/* Department Tabs */}
       <div className="flex items-center gap-1 mb-6">
         {DEPARTMENTS.map((dept) => (
@@ -260,7 +268,7 @@ export function HomeEnterprise() {
                 <DonutChart />
               </div>
               {/* Add Analytics */}
-              <div className="bg-transparent rounded-xl border-2 border-dashed border-[#2dca72] p-4 flex flex-col items-center justify-center cursor-pointer hover:bg-[#0a2a15] transition-colors">
+              <div className="bg-transparent rounded-xl border-2 border-dashed border-[#2dca72] p-4 flex flex-col items-center justify-center cursor-pointer hover:bg-[#0a2a15] transition-colors" onClick={() => setShowAddModal(true)}>
                 <span className="text-3xl text-[#2dca72] mb-2">+</span>
                 <span className="text-sm text-[#2dca72]">Add Analytics</span>
               </div>
@@ -287,7 +295,7 @@ export function HomeEnterprise() {
               ))}
             </div>
             {/* Add Department */}
-            <div className="w-[200px] bg-transparent rounded-xl border-2 border-dashed border-[#2dca72] p-6 flex flex-col items-center justify-center cursor-pointer hover:bg-[#0a2a15] transition-colors">
+            <div className="w-[200px] bg-transparent rounded-xl border-2 border-dashed border-[#2dca72] p-6 flex flex-col items-center justify-center cursor-pointer hover:bg-[#0a2a15] transition-colors" onClick={() => setShowAddModal(true)}>
               <span className="text-3xl text-[#2dca72] mb-2">+</span>
               <span className="text-sm text-[#2dca72]">Add Department</span>
             </div>

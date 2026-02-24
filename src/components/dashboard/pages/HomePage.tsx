@@ -3,21 +3,25 @@ import { HomeLanding } from './HomeLanding';
 import { HomeSmallTeam } from './HomeSmallTeam';
 import { HomeEnterprise } from './HomeEnterprise';
 
-export function HomePage() {
+interface HomePageProps {
+  onNavigate?: (page: string) => void;
+}
+
+export function HomePage({ onNavigate }: HomePageProps) {
   const size = useSetupStore((s) => s.businessInfo.size);
 
   switch (size) {
     case 'starting':
-      return <HomeLanding />;
+      return <HomeLanding onNavigate={onNavigate} />;
     case 'just-me':
-      return <HomeLanding />;
+      return <HomeLanding onNavigate={onNavigate} />;
     case '2-10':
-      return <HomeLanding />;
+      return <HomeLanding onNavigate={onNavigate} />;
     case '11-50':
-      return <HomeSmallTeam />;
+      return <HomeSmallTeam onNavigate={onNavigate} />;
     case '50-plus':
-      return <HomeEnterprise />;
+      return <HomeEnterprise onNavigate={onNavigate} />;
     default:
-      return <HomeLanding />;
+      return <HomeLanding onNavigate={onNavigate} />;
   }
 }

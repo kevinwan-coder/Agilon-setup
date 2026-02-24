@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import { useSetupStore } from '../../../store/useSetupStore';
+import { AddNewModal } from '../AddNewModal';
 
 /* ─────────────────── HomeSmallTeam (11-50) ─────────────────── */
 
@@ -93,13 +95,19 @@ const TODAY_NEWS = ['Fed raises interest rates by 0.25%', 'New labor law takes e
 
 /* ─── Component ─── */
 
-export function HomeSmallTeam() {
+interface HomeSmallTeamProps {
+  onNavigate?: (page: string) => void;
+}
+
+export function HomeSmallTeam({ onNavigate }: HomeSmallTeamProps) {
   const brandColor = useSetupStore((s) => s.branding.color) || '#2dca72';
   const template = useSetupStore((s) => s.branding.template);
   const isSidebar = template === 'classic';
+  const [showAddModal, setShowAddModal] = useState(false);
 
   return (
     <div className="overflow-y-auto">
+      <AddNewModal open={showAddModal} onClose={() => setShowAddModal(false)} onNavigate={onNavigate} />
       <div className="pt-2 pb-10">
 
         {/* ═══════════ Company Setup Banner ═══════════ */}
@@ -132,7 +140,7 @@ export function HomeSmallTeam() {
                   </div>
                 </div>
               ))}
-              <div className="w-[120px] flex-shrink-0 bg-[#1a1a1a] rounded-2xl border border-border px-4 py-4 flex items-center justify-center cursor-pointer transition-colors" onMouseEnter={(e) => e.currentTarget.style.borderColor = brandColor} onMouseLeave={(e) => e.currentTarget.style.borderColor = ''}>
+              <div className="w-[120px] flex-shrink-0 bg-[#1a1a1a] rounded-2xl border border-border px-4 py-4 flex items-center justify-center cursor-pointer transition-colors" onClick={() => setShowAddModal(true)} onMouseEnter={(e) => e.currentTarget.style.borderColor = brandColor} onMouseLeave={(e) => e.currentTarget.style.borderColor = ''}>
                 <span className="text-2xl" style={{ color: brandColor }}>+</span>
               </div>
             </div>
@@ -244,7 +252,7 @@ export function HomeSmallTeam() {
                 </div>
               </div>
             ))}
-            <div className="w-[200px] bg-[#1a1a1a] rounded-2xl border border-border flex flex-col items-center justify-center cursor-pointer transition-colors" onMouseEnter={(e) => e.currentTarget.style.borderColor = brandColor} onMouseLeave={(e) => e.currentTarget.style.borderColor = ''}>
+            <div className="w-[200px] bg-[#1a1a1a] rounded-2xl border border-border flex flex-col items-center justify-center cursor-pointer transition-colors" onClick={() => setShowAddModal(true)} onMouseEnter={(e) => e.currentTarget.style.borderColor = brandColor} onMouseLeave={(e) => e.currentTarget.style.borderColor = ''}>
               <span className="text-3xl mb-1" style={{ color: brandColor }}>+</span>
               <span className="text-xs text-gray">Add Department</span>
             </div>
@@ -285,7 +293,7 @@ export function HomeSmallTeam() {
               </div>
               <div className="px-3 py-2 text-xs font-semibold text-dark">Project 3</div>
             </div>
-            <div className="w-[140px] bg-[#1a1a1a] rounded-2xl border border-border flex flex-col items-center justify-center cursor-pointer transition-colors" onMouseEnter={(e) => e.currentTarget.style.borderColor = brandColor} onMouseLeave={(e) => e.currentTarget.style.borderColor = ''}>
+            <div className="w-[140px] bg-[#1a1a1a] rounded-2xl border border-border flex flex-col items-center justify-center cursor-pointer transition-colors" onClick={() => setShowAddModal(true)} onMouseEnter={(e) => e.currentTarget.style.borderColor = brandColor} onMouseLeave={(e) => e.currentTarget.style.borderColor = ''}>
               <span className="text-3xl mb-1" style={{ color: brandColor }}>+</span>
               <span className="text-xs text-gray">More Projects</span>
             </div>

@@ -1,10 +1,6 @@
 export const BG_COLORS = [
-  '#ffffff',
-  '#999999',
-  '#666666',
-  '#333333',
-  '#1a1a1a',
-  '#0a0a0a',
+  { value: '#ffffff', label: 'White' },
+  { value: '#0a0a0a', label: 'Dark' },
 ] as const;
 
 export const BRAND_COLORS = [

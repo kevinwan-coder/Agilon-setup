@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import { useSetupStore } from '../../../store/useSetupStore';
+import { AddNewModal } from '../AddNewModal';
 
 /* ─────────────────── HomeLanding ─────────────────── */
 
@@ -83,15 +85,21 @@ const EVENT_ITEMS = ["Dad's Birthday", 'Golf with Dr. Wan', 'Illini Game'];
 
 /* ─── Component ─── */
 
-export function HomeLanding() {
+interface HomeLandingProps {
+  onNavigate?: (page: string) => void;
+}
+
+export function HomeLanding({ onNavigate }: HomeLandingProps) {
   const brandColor = useSetupStore((s) => s.branding.color) || '#2dca72';
   const template = useSetupStore((s) => s.branding.template);
   const size = useSetupStore((s) => s.businessInfo.size);
   const isSidebar = template === 'classic';
   const isSmallTeam = size === '2-10';
+  const [showAddModal, setShowAddModal] = useState(false);
 
   return (
     <div className="overflow-y-auto">
+      <AddNewModal open={showAddModal} onClose={() => setShowAddModal(false)} onNavigate={onNavigate} />
       <div className="pt-2 pb-10">
 
         {/* ═══════════ Company Setup Banner ═══════════ */}
@@ -126,7 +134,7 @@ export function HomeLanding() {
                 </div>
               ))}
               {/* + Card */}
-              <div className="w-[120px] flex-shrink-0 bg-[#1a1a1a] rounded-2xl border border-border px-4 py-4 flex items-center justify-center cursor-pointer transition-colors" onMouseEnter={(e) => e.currentTarget.style.borderColor = brandColor} onMouseLeave={(e) => e.currentTarget.style.borderColor = ''}>
+              <div className="w-[120px] flex-shrink-0 bg-[#1a1a1a] rounded-2xl border border-border px-4 py-4 flex items-center justify-center cursor-pointer transition-colors" onClick={() => setShowAddModal(true)} onMouseEnter={(e) => e.currentTarget.style.borderColor = brandColor} onMouseLeave={(e) => e.currentTarget.style.borderColor = ''}>
                 <span className="text-2xl" style={{ color: brandColor }}>+</span>
               </div>
             </div>
@@ -256,7 +264,7 @@ export function HomeLanding() {
               </div>
             )}
             {/* + Card */}
-            <div className="w-[140px] bg-[#1a1a1a] rounded-2xl border border-border flex flex-col items-center justify-center cursor-pointer transition-colors" onMouseEnter={(e) => e.currentTarget.style.borderColor = brandColor} onMouseLeave={(e) => e.currentTarget.style.borderColor = ''}>
+            <div className="w-[140px] bg-[#1a1a1a] rounded-2xl border border-border flex flex-col items-center justify-center cursor-pointer transition-colors" onClick={() => setShowAddModal(true)} onMouseEnter={(e) => e.currentTarget.style.borderColor = brandColor} onMouseLeave={(e) => e.currentTarget.style.borderColor = ''}>
               <span className="text-3xl mb-1" style={{ color: brandColor }}>+</span>
               <span className="text-xs text-gray">More Projects</span>
             </div>
@@ -290,7 +298,7 @@ export function HomeLanding() {
               <div className="px-3 py-2 text-xs font-semibold text-dark">Project 2</div>
             </div>
             {/* More Projects */}
-            <div className="w-[140px] bg-[#1a1a1a] rounded-2xl border border-border flex flex-col items-center justify-center cursor-pointer transition-colors" onMouseEnter={(e) => e.currentTarget.style.borderColor = brandColor} onMouseLeave={(e) => e.currentTarget.style.borderColor = ''}>
+            <div className="w-[140px] bg-[#1a1a1a] rounded-2xl border border-border flex flex-col items-center justify-center cursor-pointer transition-colors" onClick={() => setShowAddModal(true)} onMouseEnter={(e) => e.currentTarget.style.borderColor = brandColor} onMouseLeave={(e) => e.currentTarget.style.borderColor = ''}>
               <span className="text-3xl mb-1" style={{ color: brandColor }}>+</span>
               <span className="text-xs text-gray">More Projects</span>
             </div>
