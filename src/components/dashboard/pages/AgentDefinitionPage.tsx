@@ -145,6 +145,7 @@ export function AgentDefinitionPage({ onBack, agentLabel, agentIcon, agentDesc }
   const brandColor = useSetupStore((s) => s.branding.color) || '#2dca72';
   const [activeSection, setActiveSection] = useState('profile');
   const [playingVoice, setPlayingVoice] = useState<string | null>(null);
+  const [systemStatus, setSystemStatus] = useState<'live' | 'activate'>('activate');
 
   const handlePlayVoice = (voiceValue: string) => {
     if (playingVoice === voiceValue) {
@@ -622,6 +623,52 @@ export function AgentDefinitionPage({ onBack, agentLabel, agentIcon, agentDesc }
                 )}
               </div>
             ))}
+
+            {/* Activate / Live cards */}
+            <div className="pt-4 border-t border-border">
+              <label className="block font-semibold text-sm text-dark mb-3">Agent Status</label>
+              <div className="flex gap-4">
+                {/* Activate card — clicking it makes the agent go Live */}
+                <button
+                  onClick={() => { if (systemStatus !== 'live') setSystemStatus('live'); }}
+                  className={`flex-1 flex items-center gap-4 p-5 rounded-xl cursor-pointer border-2 transition-all ${
+                    systemStatus !== 'live'
+                      ? 'border-[#3b82f6] bg-[#0f1a2e]'
+                      : 'border-border bg-[#1a1a1a] opacity-50 cursor-default'
+                  }`}
+                >
+                  <div className={`w-12 h-12 rounded-full flex items-center justify-center text-2xl ${
+                    systemStatus !== 'live' ? 'bg-[#3b82f620]' : 'bg-[#252525]'
+                  }`}>
+                    ⚡
+                  </div>
+                  <div className="text-left">
+                    <div className={`text-lg font-bold ${systemStatus !== 'live' ? 'text-[#3b82f6]' : 'text-gray'}`}>Activate</div>
+                    <div className="text-xs text-gray mt-0.5">{systemStatus !== 'live' ? 'Push to make this agent live' : 'Agent is already live'}</div>
+                  </div>
+                </button>
+
+                {/* Live indicator */}
+                <div
+                  className={`flex-1 flex items-center gap-4 p-5 rounded-xl border-2 transition-all ${
+                    systemStatus === 'live'
+                      ? 'border-[#22c55e] bg-[#0f2a1a]'
+                      : 'border-border bg-[#1a1a1a] opacity-50'
+                  }`}
+                >
+                  <div className={`w-12 h-12 rounded-full flex items-center justify-center text-2xl ${
+                    systemStatus === 'live' ? 'bg-[#22c55e20]' : 'bg-[#252525]'
+                  }`}>
+                    🟢
+                  </div>
+                  <div className="text-left">
+                    <div className={`text-lg font-bold ${systemStatus === 'live' ? 'text-[#22c55e]' : 'text-gray'}`}>Live</div>
+                    <div className="text-xs text-gray mt-0.5">{systemStatus === 'live' ? 'Agent is active & running' : 'Not yet activated'}</div>
+                  </div>
+                  {systemStatus === 'live' && <span className="ml-auto text-[#22c55e] text-xl">✓</span>}
+                </div>
+              </div>
+            </div>
           </div>
         )}
 
