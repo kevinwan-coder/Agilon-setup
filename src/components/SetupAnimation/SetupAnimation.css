@@ -1,0 +1,381 @@
+/**
+ * Styles for SetupAnimation component.
+ * All classes are scoped under .setup-animation to avoid collisions.
+ */
+
+/* Root: full-bleed setup screen */
+.setup-animation {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #0a0a0a 0%, #111827 50%, #0a0a0a 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  z-index: 100;
+}
+
+/* Animated background container */
+.setup-animation-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+/* Grid */
+.setup-animation-grid {
+  position: absolute;
+  inset: -50%;
+  background-image:
+    linear-gradient(rgba(34, 197, 94, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 197, 94, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  animation: setup-animation-grid-move 20s linear infinite;
+  transform: perspective(500px) rotateX(60deg);
+}
+
+@keyframes setup-animation-grid-move {
+  0% {
+    transform: perspective(500px) rotateX(60deg) translateY(0);
+  }
+  100% {
+    transform: perspective(500px) rotateX(60deg) translateY(60px);
+  }
+}
+
+/* Center glow */
+.setup-animation-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 600px;
+  height: 600px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(34, 197, 94, 0.15) 0%, transparent 70%);
+  animation: setup-animation-glow-pulse 4s ease-in-out infinite;
+}
+
+@keyframes setup-animation-glow-pulse {
+  0%, 100% {
+    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+}
+
+/* Particles container */
+.setup-animation-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.setup-animation-particle {
+  position: absolute;
+  bottom: -10px;
+  width: 4px;
+  height: 4px;
+  background: #22c55e;
+  border-radius: 50%;
+  opacity: 0.6;
+  animation: setup-animation-particle-float 5s ease-in-out infinite;
+}
+
+@keyframes setup-animation-particle-float {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.6;
+  }
+  90% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-100vh) scale(0.5);
+    opacity: 0;
+  }
+}
+
+/* Main content (logo, title, progress, steps, tip) */
+.setup-animation-main {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem;
+  text-align: center;
+  animation: setup-animation-main-fade-in 0.6s ease;
+}
+
+@keyframes setup-animation-main-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Logo with spinning rings */
+.setup-animation-logo {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.setup-animation-logo-ring {
+  position: absolute;
+  inset: 0;
+  border: 2px solid rgba(34, 197, 94, 0.3);
+  border-radius: 50%;
+  animation: setup-animation-ring-spin 8s linear infinite;
+}
+
+.setup-animation-logo-ring::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  background: #22c55e;
+  border-radius: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 0 10px #22c55e, 0 0 20px #22c55e;
+}
+
+.setup-animation-ring-2 {
+  inset: 15px;
+  animation-duration: 6s;
+  animation-direction: reverse;
+  border-color: rgba(34, 197, 94, 0.2);
+}
+
+.setup-animation-ring-3 {
+  inset: 30px;
+  animation-duration: 4s;
+  border-color: rgba(34, 197, 94, 0.15);
+}
+
+@keyframes setup-animation-ring-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.setup-animation-logo-center {
+  position: relative;
+  z-index: 10;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 0 30px rgba(34, 197, 94, 0.4);
+  animation: setup-animation-center-pulse 2s ease-in-out infinite;
+}
+
+@keyframes setup-animation-center-pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 30px rgba(34, 197, 94, 0.4);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 40px rgba(34, 197, 94, 0.6);
+  }
+}
+
+/* Title */
+.setup-animation-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+  letter-spacing: -0.5px;
+  background: linear-gradient(135deg, #fff 0%, #86efac 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Status text */
+.setup-animation-status {
+  font-size: 1.1rem;
+  color: #9ca3af;
+  margin: 0;
+  max-width: 400px;
+  animation: setup-animation-status-fade 2s ease-in-out infinite;
+}
+
+@keyframes setup-animation-status-fade {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* Progress bar */
+.setup-animation-progress {
+  width: 300px;
+  padding: 0 1rem;
+}
+
+.setup-animation-progress-bar {
+  position: relative;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.setup-animation-progress-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 30%;
+  background: linear-gradient(90deg, #16a34a, #22c55e, #16a34a);
+  background-size: 200% 100%;
+  border-radius: 2px;
+  animation: setup-animation-progress-move 2s ease-in-out infinite;
+}
+
+@keyframes setup-animation-progress-move {
+  0% {
+    width: 20%;
+    left: 0;
+    background-position: 0% 0%;
+  }
+  50% {
+    width: 40%;
+    left: 30%;
+    background-position: 100% 0%;
+  }
+  100% {
+    width: 20%;
+    left: 80%;
+    background-position: 0% 0%;
+  }
+}
+
+.setup-animation-progress-glow {
+  position: absolute;
+  top: -2px;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: linear-gradient(90deg, transparent, rgba(34, 197, 94, 0.5), transparent);
+  animation: setup-animation-glow-move 2s ease-in-out infinite;
+}
+
+@keyframes setup-animation-glow-move {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Steps */
+.setup-animation-steps {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.setup-animation-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  opacity: 0.4;
+  transition: all 0.3s ease;
+}
+
+.setup-animation-step.active {
+  opacity: 1;
+}
+
+.setup-animation-step.active .setup-animation-step-icon {
+  background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+  border-color: #22c55e;
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.4);
+  animation: setup-animation-step-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes setup-animation-step-pulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(34, 197, 94, 0.4); }
+  50% { box-shadow: 0 0 30px rgba(34, 197, 94, 0.6); }
+}
+
+.setup-animation-step-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.setup-animation-step-icon svg {
+  width: 24px;
+  height: 24px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.setup-animation-step.active .setup-animation-step-icon svg {
+  color: white;
+}
+
+.setup-animation-step span {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+}
+
+.setup-animation-step.active span {
+  color: #86efac;
+}
+
+/* Tip */
+.setup-animation-tip {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  margin-top: 1rem;
+  animation: setup-animation-tip-fade 3s ease-in-out infinite;
+}
+
+@keyframes setup-animation-tip-fade {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
+
+.setup-animation-tip-icon {
+  font-size: 1.25rem;
+}
+
+.setup-animation-tip span:last-child {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.6);
+}
