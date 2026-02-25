@@ -1,3 +1,4 @@
+// Test push to both GitHub and GitLab - 2026-02-25
 import { useSetupStore } from './store/useSetupStore';
 import { LandingPage } from './components/LandingPage';
 import { TopBar } from './components/layout/TopBar';
