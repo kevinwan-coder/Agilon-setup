@@ -117,7 +117,6 @@ const UploadIcon = () => (
 const SECTION_TABS = [
   { id: 'profile', label: 'Profile', icon: '👤' },
   { id: 'features', label: 'Features', icon: '⚡' },
-  { id: 'tasks', label: 'Tasks', icon: '📋' },
   { id: 'training', label: 'Training', icon: '📚' },
 ];
 
@@ -130,6 +129,7 @@ const DEFAULT_FEATURES = [
   'Calendar Management',
   'Document Processing',
   'Workflow Integration',
+  'Agentic Web Navigation',
 ];
 
 /* ─── Component ─── */
@@ -164,8 +164,19 @@ export function AgentDefinitionPage({ onBack, agentLabel, agentIcon, agentDesc }
     utterance.volume = 1;
 
     const voices = window.speechSynthesis.getVoices();
-    const englishVoice = voices.find((v) => v.lang.startsWith('en') && v.localService);
-    if (englishVoice) utterance.voice = englishVoice;
+    const gender = config.gender;
+    let matchedVoice: SpeechSynthesisVoice | undefined;
+
+    if (gender === 'female') {
+      matchedVoice = voices.find((v) => v.lang.startsWith('en') && /female|zira|hazel|susan|samantha|karen|moira|fiona|victoria/i.test(v.name));
+    } else if (gender === 'male') {
+      matchedVoice = voices.find((v) => v.lang.startsWith('en') && /male|david|mark|james|daniel|george|richard|alex|tom|fred/i.test(v.name));
+    }
+
+    if (!matchedVoice) {
+      matchedVoice = voices.find((v) => v.lang.startsWith('en') && v.localService);
+    }
+    if (matchedVoice) utterance.voice = matchedVoice;
 
     utterance.onend = () => setPlayingVoice(null);
     utterance.onerror = () => setPlayingVoice(null);
@@ -327,34 +338,37 @@ export function AgentDefinitionPage({ onBack, agentLabel, agentIcon, agentDesc }
         {/* ═══ Profile Section ═══ */}
         {activeSection === 'profile' && (
           <div className="space-y-5 max-w-[600px]">
-            <div>
-              <label className="block font-semibold text-sm text-dark mb-1.5">Agent Name</label>
-              <input
-                type="text"
-                className={inputClass}
-                placeholder="e.g. Sarah, Alex"
-                value={config.name}
-                onChange={(e) => update({ name: e.target.value })}
-              />
-            </div>
+            {/* Agent Name + Gender — same row */}
+            <div className="grid grid-cols-2 gap-6 items-end">
+              <div>
+                <label className="block font-semibold text-sm text-dark mb-1.5">Agent Name</label>
+                <input
+                  type="text"
+                  className={inputClass}
+                  placeholder="e.g. Sarah, Alex"
+                  value={config.name}
+                  onChange={(e) => update({ name: e.target.value })}
+                />
+              </div>
 
-            <div>
-              <label className="block font-semibold text-sm text-dark mb-2">Gender</label>
-              <div className="flex gap-3">
-                {GENDERS.map((g) => (
-                  <button
-                    key={g.value}
-                    onClick={() => update({ gender: g.value as 'female' | 'male' })}
-                    className={`flex items-center gap-2 px-5 py-3 rounded-lg cursor-pointer border-2 transition-all ${
-                      config.gender === g.value
-                        ? 'border-[#7ee8a8] bg-[#1a2e22]'
-                        : 'border-border bg-[#1a1a1a] hover:border-[#7ee8a8]'
-                    }`}
-                  >
-                    <span className="text-xl">{g.icon}</span>
-                    <span className="text-sm text-dark font-medium">{g.label}</span>
-                  </button>
-                ))}
+              <div>
+                <label className="block font-semibold text-sm text-dark mb-1.5">Gender</label>
+                <div className="flex gap-3">
+                  {GENDERS.map((g) => (
+                    <button
+                      key={g.value}
+                      onClick={() => update({ gender: g.value as 'female' | 'male' })}
+                      className={`flex items-center gap-2 px-5 py-2.5 rounded-lg cursor-pointer border-[1.5px] transition-all ${
+                        config.gender === g.value
+                          ? 'border-[#7ee8a8] bg-[#1a2e22]'
+                          : 'border-border bg-[#1a1a1a] hover:border-[#7ee8a8]'
+                      }`}
+                    >
+                      <span className="text-xl">{g.icon}</span>
+                      <span className="text-sm text-dark font-medium">{g.label}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
 
@@ -475,80 +489,6 @@ export function AgentDefinitionPage({ onBack, agentLabel, agentIcon, agentDesc }
                 </button>
               </div>
             </div>
-          </div>
-        )}
-
-        {/* ═══ Tasks Section ═══ */}
-        {activeSection === 'tasks' && (
-          <div className="space-y-5 max-w-[700px]">
-            {([
-              { key: 'primaryDuty' as const, label: 'Primary Duty', hint: 'What is the main purpose of this agent?', placeholder: `e.g. The ${agentLabel} agent is responsible for...` },
-              { key: 'responsibilities' as const, label: 'Responsibilities', hint: 'List the specific tasks and responsibilities', placeholder: 'e.g. - Monitor incoming requests\n- Process and categorize data\n- Generate weekly reports' },
-              { key: 'schedule' as const, label: 'Schedule & Availability', hint: 'When should this agent be active?', placeholder: 'e.g. 24/7 monitoring, business hours only (9 AM - 5 PM EST)' },
-              { key: 'escalation' as const, label: 'Escalation Rules', hint: 'When should the agent escalate to a human?', placeholder: 'e.g. Escalate when confidence is below 80%, or when issues remain unresolved' },
-            ]).map((field) => (
-              <div key={field.key}>
-                <label className="block font-semibold text-sm text-dark mb-1.5">{field.label}</label>
-                <p className="text-xs text-gray mb-2">{field.hint}</p>
-
-                {/* Textarea + Mic button row */}
-                <div className="flex gap-2 items-start">
-                  <textarea
-                    className={textareaClass}
-                    placeholder={field.placeholder}
-                    value={config[field.key]}
-                    onChange={(e) => update({ [field.key]: e.target.value })}
-                  />
-                  <button
-                    onClick={() => toggleVoiceInput(field.key)}
-                    className={`flex-shrink-0 flex flex-col items-center gap-1 px-3 py-3 rounded-lg cursor-pointer border-2 transition-all ${
-                      recordingField === field.key
-                        ? 'border-[#7ee8a8] bg-[#1a2e22] text-[#7ee8a8]'
-                        : 'border-border bg-[#1a1a1a] text-gray hover:border-[#7ee8a8] hover:text-[#7ee8a8]'
-                    }`}
-                    title={recordingField === field.key ? 'Stop recording' : 'Voice input'}
-                  >
-                    <MicInputIcon active={recordingField === field.key} />
-                    <span className="text-[10px] leading-tight whitespace-nowrap">
-                      {recordingField === field.key ? 'Stop' : 'Input'}
-                    </span>
-                    <span className="text-[10px] leading-tight whitespace-nowrap">
-                      {recordingField === field.key ? '' : 'by voice'}
-                    </span>
-                  </button>
-                </div>
-
-                {/* File drop zone */}
-                <div
-                  className="mt-2 border-2 border-dashed border-border rounded-lg p-3 flex items-center gap-2 cursor-pointer hover:border-[#7ee8a8] transition-colors bg-[#1a1a1a]"
-                  onDragOver={(e) => e.preventDefault()}
-                  onDrop={(e) => handleFileDrop(field.key, e)}
-                  onClick={() => fileInputRefs.current[field.key]?.click()}
-                >
-                  <UploadIcon />
-                  <span className="text-xs text-gray">Drop files here or click to browse</span>
-                  <input
-                    ref={(el) => { fileInputRefs.current[field.key] = el; }}
-                    type="file"
-                    multiple
-                    className="hidden"
-                    onChange={(e) => handleFileSelect(field.key, e)}
-                  />
-                </div>
-
-                {/* Dropped file list */}
-                {(droppedFiles[field.key] || []).length > 0 && (
-                  <div className="mt-2 flex flex-wrap gap-2">
-                    {droppedFiles[field.key].map((file) => (
-                      <span key={file} className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#252525] border border-border text-xs text-dark">
-                        📎 {file}
-                        <button onClick={() => removeFile(field.key, file)} className="text-gray hover:text-[#ef4444] bg-transparent border-none cursor-pointer text-xs">✕</button>
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
           </div>
         )}
 

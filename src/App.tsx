@@ -2,7 +2,6 @@ import { useSetupStore } from './store/useSetupStore';
 import { LandingPage } from './components/LandingPage';
 import { TopBar } from './components/layout/TopBar';
 import { Step1BusinessInfo } from './components/steps/Step1BusinessInfo';
-import { Step2Branding } from './components/steps/Step2Branding';
 import { Provisioning } from './components/steps/Provisioning';
 import { Dashboard } from './components/dashboard/Dashboard';
 
@@ -24,7 +23,6 @@ function App() {
       <TopBar />
 
       {currentStep === 1 && <Step1BusinessInfo />}
-      {currentStep === 2 && <Step2Branding />}
       {currentStep === 3 && <Provisioning />}
     </div>
   );

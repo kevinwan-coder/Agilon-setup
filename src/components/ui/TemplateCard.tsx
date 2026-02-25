@@ -22,7 +22,7 @@ export function TemplateCard({ name, description, layout, sidebar, topbar, accen
       }`}
     >
       {/* Dashboard preview */}
-      <div className="h-[140px] flex overflow-hidden" style={{ backgroundColor: bg }}>
+      <div className="h-[101px] flex overflow-hidden" style={{ backgroundColor: bg }}>
         {layout === 'sidebar' ? (
           /* ─── Side Menu Layout ─── */
           <>

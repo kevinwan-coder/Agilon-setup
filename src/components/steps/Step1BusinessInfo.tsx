@@ -1,15 +1,18 @@
 import { useCallback, useState } from 'react';
 import { useSetupStore } from '../../store/useSetupStore';
 import { businessInfoSchema } from '../../schemas/businessInfo';
-import { INDUSTRIES } from '../../constants/industries';
-import { US_STATES } from '../../constants/states';
+import { brandingSchema } from '../../schemas/branding';
+import { TEMPLATES } from '../../constants/templates';
+import { BRAND_COLORS } from '../../constants/colors';
 import { Input } from '../ui/Input';
-import { Select } from '../ui/Select';
 import { RadioCard } from '../ui/RadioCard';
+import { TemplateCard } from '../ui/TemplateCard';
+import { FileUpload } from '../ui/FileUpload';
+import { ColorPicker } from '../ui/ColorPicker';
 import { Button } from '../ui/Button';
 import { Toast } from '../ui/Toast';
 import { StepCard } from '../layout/StepCard';
-import type { CompanySize } from '../../types/setup';
+import type { CompanySize, TemplateName } from '../../types/setup';
 
 const SIZES: { value: CompanySize; icon: string; label: string; desc: string }[] = [
   { value: 'starting', icon: '🚀', label: 'Starting', desc: 'New business' },
@@ -20,27 +23,46 @@ const SIZES: { value: CompanySize; icon: string; label: string; desc: string }[]
 ];
 
 export function Step1BusinessInfo() {
-  const { businessInfo, updateBusinessInfo, setStep } = useSetupStore();
+  const { businessInfo, updateBusinessInfo, branding, updateBranding, setStep, setProvisioning } = useSetupStore();
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [toast, setToast] = useState('');
 
   const handleNext = useCallback(() => {
-    const result = businessInfoSchema.safeParse(businessInfo);
-    if (!result.success) {
-      const fieldErrors: Record<string, string> = {};
-      const missing: string[] = [];
-      result.error.issues.forEach((e) => {
+    // Validate business info
+    const bizResult = businessInfoSchema.safeParse(businessInfo);
+    const brandResult = brandingSchema.safeParse({
+      template: branding.template,
+      color: branding.color,
+    });
+
+    const fieldErrors: Record<string, string> = {};
+    const missing: string[] = [];
+
+    if (!bizResult.success) {
+      bizResult.error.issues.forEach((e) => {
         const field = String(e.path[0]);
         fieldErrors[field] = e.message;
         missing.push(field.charAt(0).toUpperCase() + field.slice(1));
       });
+    }
+    if (!brandResult.success) {
+      brandResult.error.issues.forEach((e) => {
+        const field = String(e.path[0]);
+        fieldErrors[field] = e.message;
+        missing.push(field.charAt(0).toUpperCase() + field.slice(1));
+      });
+    }
+
+    if (missing.length > 0) {
       setErrors(fieldErrors);
       setToast(`Please fill in: ${missing.join(', ')}`);
       return;
     }
+
     setErrors({});
-    setStep(2);
-  }, [businessInfo, setStep]);
+    setProvisioning(true);
+    setStep(3);
+  }, [businessInfo, branding, setStep, setProvisioning]);
 
   return (
     <StepCard>
@@ -84,36 +106,92 @@ export function Step1BusinessInfo() {
         {errors.size && <p className="text-red text-xs mt-1 text-center">{errors.size}</p>}
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
-        <Select
-          label="Type of Company"
-          options={[...INDUSTRIES]}
-          placeholder="Select type..."
-          value={businessInfo.industry}
-          onChange={(e) => updateBusinessInfo({ industry: e.target.value })}
-        />
-        <Select
-          label="State"
-          options={[...US_STATES]}
-          placeholder="Select state..."
-          value={businessInfo.state}
-          onChange={(e) => updateBusinessInfo({ state: e.target.value })}
-        />
+
+      {/* ─── Branding Section ─── */}
+      <div className="mt-6 pt-6 border-t border-border">
+        {/* Templates + Upload Logo — same row */}
+        <div className="grid grid-cols-2 gap-6 mb-6 items-stretch">
+          {/* Templates */}
+          <div>
+            <label className="block font-semibold text-sm text-dark mb-1.5">
+              Choose a Template <span className="text-red">*</span>
+            </label>
+            <div className={`rounded-lg ${errors.template ? 'border-2 border-red p-0.5' : ''}`}>
+              <div className="grid grid-cols-2 gap-3">
+                {TEMPLATES.map((t) => (
+                  <TemplateCard
+                    key={t.id}
+                    name={t.name}
+                    description={t.description}
+                    layout={t.layout}
+                    sidebar={t.sidebar}
+                    topbar={t.topbar}
+                    accent={t.accent}
+                    bg={t.bg}
+                    cardBg={t.cardBg}
+                    textLight={t.textLight}
+                    selected={branding.template === t.id}
+                    onClick={() => {
+                      updateBranding({ template: t.id as TemplateName });
+                      if (errors.template) setErrors((p) => ({ ...p, template: '' }));
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
+            {errors.template && <p className="text-red text-xs mt-1">{errors.template}</p>}
+          </div>
+
+          {/* Upload Logo — right side */}
+          <div className="flex flex-col">
+            <FileUpload
+              logoName={branding.logoName}
+              onFileSelect={(file) => updateBranding({ logoFile: file, logoName: file.name })}
+            />
+          </div>
+        </div>
+
+        {/* Background Color + Brand Color — same row */}
+        <div className="grid grid-cols-2 gap-6">
+          {/* Background Color — left */}
+          <ColorPicker
+            selected={branding.bgColor}
+            onSelect={(bgColor) => {
+              updateBranding({ bgColor });
+            }}
+          />
+
+          {/* Brand Color — right */}
+          <div>
+            <label className="block font-semibold text-sm text-dark mb-1.5">
+              Brand Color <span className="text-red">*</span>
+            </label>
+            <p className="text-xs text-gray-light mb-2">Choose a primary color for your workspace</p>
+            <div className={`flex gap-2.5 flex-wrap ${errors.color ? 'border-2 border-red rounded-lg p-1' : ''}`}>
+              {BRAND_COLORS.map((color) => (
+                <button
+                  key={color}
+                  type="button"
+                  onClick={() => {
+                    updateBranding({ color });
+                    if (errors.color) setErrors((p) => ({ ...p, color: '' }));
+                  }}
+                  className={`w-11 h-11 rounded-lg cursor-pointer border-3 transition-all hover:scale-110 ${
+                    branding.color === color
+                      ? 'border-white shadow-[0_0_0_2px_#1a1a1a,0_0_0_4px_white]'
+                      : 'border-transparent'
+                  }`}
+                  style={{ backgroundColor: color }}
+                  aria-label={`Select brand color ${color}`}
+                />
+              ))}
+            </div>
+            {errors.color && <p className="text-red text-xs mt-1">{errors.color}</p>}
+          </div>
+        </div>
       </div>
 
-      <div className="mb-4">
-        <label className="block font-semibold text-sm text-dark mb-1.5">
-          Brief Description <span className="text-gray-light font-normal">(optional)</span>
-        </label>
-        <textarea
-          className="w-full px-3.5 py-2.5 border-[1.5px] border-border rounded-lg text-[0.95rem] text-dark bg-[#252525] placeholder:text-gray-light resize-y min-h-[64px] focus:outline-none focus:border-[#7ee8a8] focus:shadow-[0_0_0_3px_rgba(126,232,168,0.15)]"
-          placeholder="Tell us a bit about what your business does..."
-          value={businessInfo.description}
-          onChange={(e) => updateBusinessInfo({ description: e.target.value })}
-        />
-      </div>
-
-      <div className="flex justify-end mt-6 pt-4">
+      <div className="flex justify-end mt-6 pt-4 border-t border-border">
         <Button onClick={handleNext}>Continue &rarr;</Button>
       </div>
 
