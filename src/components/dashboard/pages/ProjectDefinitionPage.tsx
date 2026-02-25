@@ -20,11 +20,13 @@ interface Milestone {
   id: string;
   title: string;
   date: string;
+  deadline: string;
   status: 'pending' | 'in-progress' | 'completed';
 }
 
 interface PhaseConfig {
   // Phase 1: Strategic Initiation
+  campaignName: string;
   smartGoals: string;
   stakeholders: string;
   dataAudit: string;
@@ -116,7 +118,7 @@ const PHASE_TABS = [
   { id: 'design', label: 'Design', icon: '📐', num: '2' },
   { id: 'execution', label: 'Execution', icon: '🚀', num: '3' },
   { id: 'monitoring', label: 'Monitoring', icon: '📊', num: '4' },
-  { id: 'closure', label: 'Closure', icon: '✅', num: '5' },
+  { id: 'closure', label: 'Created', icon: '✅', num: '5' },
 ];
 
 /* ─── Phase field definitions ─── */
@@ -170,15 +172,18 @@ const CHECKLIST_ITEMS: { key: keyof PhaseConfig; label: string; question: string
 
 interface ProjectDefinitionPageProps {
   onBack: () => void;
+  onNavigate?: (page: string) => void;
   projectLabel: string;
   projectIcon: string;
   projectDesc: string;
 }
 
-export function ProjectDefinitionPage({ onBack, projectLabel, projectIcon, projectDesc }: ProjectDefinitionPageProps) {
+export function ProjectDefinitionPage({ onBack, onNavigate, projectLabel, projectIcon, projectDesc }: ProjectDefinitionPageProps) {
   const brandColor = useSetupStore((s) => s.branding.color) || '#2dca72';
+  const addProject = useSetupStore((s) => s.addProject);
   const [activePhase, setActivePhase] = useState('initiation');
   const [systemStatus, setSystemStatus] = useState<'live' | 'activate'>('activate');
+  const [projectPosition, setProjectPosition] = useState<'department' | 'projects' | null>(null);
 
   /* ─── Team Members ─── */
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
@@ -213,12 +218,14 @@ export function ProjectDefinitionPage({ onBack, projectLabel, projectIcon, proje
   const [showAddMilestone, setShowAddMilestone] = useState(false);
   const [newMilestoneTitle, setNewMilestoneTitle] = useState('');
   const [newMilestoneDate, setNewMilestoneDate] = useState('');
+  const [newMilestoneDeadline, setNewMilestoneDeadline] = useState('');
 
   const addMilestone = () => {
     if (!newMilestoneTitle.trim()) return;
-    setMilestones((prev) => [...prev, { id: Date.now().toString(), title: newMilestoneTitle.trim(), date: newMilestoneDate, status: 'pending' }]);
+    setMilestones((prev) => [...prev, { id: Date.now().toString(), title: newMilestoneTitle.trim(), date: newMilestoneDate, deadline: newMilestoneDeadline, status: 'pending' }]);
     setNewMilestoneTitle('');
     setNewMilestoneDate('');
+    setNewMilestoneDeadline('');
     setShowAddMilestone(false);
   };
   const removeMilestone = (id: string) => setMilestones((prev) => prev.filter((m) => m.id !== id));
@@ -228,7 +235,7 @@ export function ProjectDefinitionPage({ onBack, projectLabel, projectIcon, proje
   };
 
   const [config, setConfig] = useState<PhaseConfig>({
-    smartGoals: '', stakeholders: '', dataAudit: '',
+    campaignName: '', smartGoals: '', stakeholders: '', dataAudit: '',
     taskDecomposition: '', resourceAllocation: '', riskGuardrails: '',
     environmentSetup: '', sprintExecution: '', feedbackLoops: '',
     healthScoring: '', automatedReporting: '', changeManagement: '',
@@ -299,7 +306,7 @@ export function ProjectDefinitionPage({ onBack, projectLabel, projectIcon, proje
     design: 'Design & Resource Planning — Decide which tasks belong to humans and which to digital agents.',
     execution: 'Execution & Agentic Deployment — Focus on Agentic Task Completion (ATC).',
     monitoring: 'Monitoring, Controlling & Governance — Proactive AI watching the AI.',
-    closure: 'Closure & Post-Project Optimization — Project data becomes a "Moat" for the next project.',
+    closure: 'Created — Finalize the project and choose where it will be shown in your workspace.',
   };
 
   return (
@@ -348,172 +355,212 @@ export function ProjectDefinitionPage({ onBack, projectLabel, projectIcon, proje
       {/* Content */}
       <div className="flex-1 overflow-y-auto pb-10 pt-4">
 
-        {/* ═══ Team Members / AI Agents / Milestones ═══ */}
-        <div className="grid grid-cols-3 gap-4 mb-6 max-w-[700px]">
-
-          {/* ── Team Members ── */}
-          <div className="relative">
-            <label className="block text-xs font-semibold text-gray mb-2 uppercase tracking-wide">Team Members</label>
-            <div className="flex flex-wrap items-center gap-2">
-              {teamMembers.map((m) => (
-                <div key={m.id} className="group relative flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-[#252525] border border-border text-xs">
-                  <div className="w-6 h-6 rounded-full bg-[#1a2e22] text-[#7ee8a8] flex items-center justify-center text-[10px] font-bold flex-shrink-0">
-                    {m.name.charAt(0).toUpperCase()}
-                  </div>
-                  <div className="min-w-0">
-                    <div className="text-dark font-medium truncate max-w-[80px]">{m.name}</div>
-                    <div className="text-gray text-[10px] truncate max-w-[80px]">{m.role}</div>
-                  </div>
-                  <button onClick={() => removeMember(m.id)} className="opacity-0 group-hover:opacity-100 absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-[#ef4444] text-white flex items-center justify-center text-[8px] border-none cursor-pointer transition-opacity">✕</button>
-                </div>
-              ))}
-              <button
-                onClick={() => setShowAddMember(true)}
-                className="w-8 h-8 rounded-full border-2 border-dashed border-border bg-transparent text-gray hover:border-[#7ee8a8] hover:text-[#7ee8a8] flex items-center justify-center cursor-pointer transition-colors text-lg"
-              >+</button>
-            </div>
-
-            {/* Add Member popup */}
-            {showAddMember && (
-              <div className="absolute top-full left-0 mt-2 z-20 p-3 rounded-xl bg-[#1a1a1a] border border-border shadow-lg min-w-[220px]">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-semibold text-dark">Add Team Member</span>
-                  <button onClick={() => setShowAddMember(false)} className="text-gray hover:text-dark bg-transparent border-none cursor-pointer"><CloseIcon /></button>
-                </div>
-                <input
-                  className={inputClass + ' mb-2 !text-xs !py-2'}
-                  placeholder="Name"
-                  value={newMemberName}
-                  onChange={(e) => setNewMemberName(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && addMember()}
-                  autoFocus
-                />
-                <input
-                  className={inputClass + ' mb-2 !text-xs !py-2'}
-                  placeholder="Role (e.g. Project Manager)"
-                  value={newMemberRole}
-                  onChange={(e) => setNewMemberRole(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && addMember()}
-                />
-                <button
-                  onClick={addMember}
-                  className="w-full py-1.5 rounded-lg text-xs font-semibold text-white border-none cursor-pointer"
-                  style={{ backgroundColor: brandColor }}
-                >Add</button>
-              </div>
-            )}
-          </div>
-
-          {/* ── AI Agents ── */}
-          <div className="relative">
-            <label className="block text-xs font-semibold text-gray mb-2 uppercase tracking-wide">AI Agents</label>
-            <div className="flex flex-wrap items-center gap-2">
-              {assignedAgents.map((a) => (
-                <div key={a.id} className="group relative flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-[#252525] border border-border text-xs">
-                  <span className="text-base flex-shrink-0">{a.icon}</span>
-                  <div className="min-w-0">
-                    <div className="text-dark font-medium truncate max-w-[80px]">{a.label}</div>
-                    <div className="text-gray text-[10px] truncate max-w-[80px]">{a.role}</div>
-                  </div>
-                  <button onClick={() => removeAgent(a.id)} className="opacity-0 group-hover:opacity-100 absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-[#ef4444] text-white flex items-center justify-center text-[8px] border-none cursor-pointer transition-opacity">✕</button>
-                </div>
-              ))}
-              <button
-                onClick={() => setShowAddAgent(true)}
-                className="w-8 h-8 rounded-full border-2 border-dashed border-border bg-transparent text-gray hover:border-[#7ee8a8] hover:text-[#7ee8a8] flex items-center justify-center cursor-pointer transition-colors text-lg"
-              >+</button>
-            </div>
-
-            {/* Add Agent popup */}
-            {showAddAgent && (
-              <div className="absolute top-full left-0 mt-2 z-20 p-3 rounded-xl bg-[#1a1a1a] border border-border shadow-lg min-w-[260px] max-h-[300px]">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-semibold text-dark">Assign AI Agent</span>
-                  <button onClick={() => setShowAddAgent(false)} className="text-gray hover:text-dark bg-transparent border-none cursor-pointer"><CloseIcon /></button>
-                </div>
-                <input
-                  className={inputClass + ' mb-2 !text-xs !py-2'}
-                  placeholder="Role / Assignment (optional)"
-                  value={agentRole}
-                  onChange={(e) => setAgentRole(e.target.value)}
-                />
-                <div className="overflow-y-auto max-h-[200px] space-y-1">
-                  {AVAILABLE_AGENTS.filter((a) => !assignedAgents.some((aa) => aa.id === a.id)).map((agent) => (
-                    <button
-                      key={agent.id}
-                      onClick={() => addAgent(agent)}
-                      className="w-full flex items-center gap-2 px-2.5 py-2 rounded-lg bg-transparent border border-transparent hover:bg-[#252525] hover:border-border cursor-pointer transition-all text-left"
-                    >
-                      <span className="text-base">{agent.icon}</span>
-                      <span className="text-xs text-dark font-medium">{agent.label}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* ── Milestones ── */}
-          <div className="relative">
-            <label className="block text-xs font-semibold text-gray mb-2 uppercase tracking-wide">Milestones</label>
-            <div className="flex flex-wrap items-center gap-2">
-              {milestones.map((m) => {
-                const st = MILESTONE_STATUS[m.status];
-                return (
-                  <div key={m.id} className="group relative flex items-center gap-2 px-2.5 py-1.5 rounded-lg border text-xs" style={{ backgroundColor: st.bg, borderColor: st.color + '40' }}>
-                    <button onClick={() => cycleMilestoneStatus(m.id)} className="w-4 h-4 rounded-full border-2 flex items-center justify-center text-[8px] bg-transparent cursor-pointer flex-shrink-0 transition-colors" style={{ borderColor: st.color, color: st.color }}>
-                      {m.status === 'completed' ? '✓' : m.status === 'in-progress' ? '▶' : '○'}
-                    </button>
-                    <div className="min-w-0">
-                      <div className="text-dark font-medium truncate max-w-[80px]">{m.title}</div>
-                      {m.date && <div className="text-[10px] truncate max-w-[80px]" style={{ color: st.color }}>{m.date}</div>}
-                    </div>
-                    <button onClick={() => removeMilestone(m.id)} className="opacity-0 group-hover:opacity-100 absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-[#ef4444] text-white flex items-center justify-center text-[8px] border-none cursor-pointer transition-opacity">✕</button>
-                  </div>
-                );
-              })}
-              <button
-                onClick={() => setShowAddMilestone(true)}
-                className="w-8 h-8 rounded-full border-2 border-dashed border-border bg-transparent text-gray hover:border-[#7ee8a8] hover:text-[#7ee8a8] flex items-center justify-center cursor-pointer transition-colors text-lg"
-              >+</button>
-            </div>
-
-            {/* Add Milestone popup */}
-            {showAddMilestone && (
-              <div className="absolute top-full left-0 mt-2 z-20 p-3 rounded-xl bg-[#1a1a1a] border border-border shadow-lg min-w-[220px]">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-semibold text-dark">Add Milestone</span>
-                  <button onClick={() => setShowAddMilestone(false)} className="text-gray hover:text-dark bg-transparent border-none cursor-pointer"><CloseIcon /></button>
-                </div>
-                <input
-                  className={inputClass + ' mb-2 !text-xs !py-2'}
-                  placeholder="Milestone title"
-                  value={newMilestoneTitle}
-                  onChange={(e) => setNewMilestoneTitle(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && addMilestone()}
-                  autoFocus
-                />
-                <input
-                  type="date"
-                  className={inputClass + ' mb-2 !text-xs !py-2'}
-                  value={newMilestoneDate}
-                  onChange={(e) => setNewMilestoneDate(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && addMilestone()}
-                />
-                <button
-                  onClick={addMilestone}
-                  className="w-full py-1.5 rounded-lg text-xs font-semibold text-white border-none cursor-pointer"
-                  style={{ backgroundColor: brandColor }}
-                >Add</button>
-              </div>
-            )}
-          </div>
-        </div>
-
-        <div className="border-b border-border mb-5 max-w-[700px]" />
-
         {/* Phase description */}
         <p className="text-sm text-gray mb-5 max-w-[700px]">{PHASE_DESC[activePhase]}</p>
+
+        {/* ═══ Initiation: Campaign Name + Team Members (Including AI Agents) ═══ */}
+        {activePhase === 'initiation' && (
+          <div className="space-y-5 max-w-[700px] mb-6">
+
+            {/* ── Campaign Name ── */}
+            <div>
+              <label className="font-semibold text-sm text-dark mb-1.5 block">{projectLabel} Name</label>
+              <input
+                className={inputClass}
+                placeholder={`Enter ${projectLabel.toLowerCase()} name...`}
+                value={config.campaignName}
+                onChange={(e) => update({ campaignName: e.target.value })}
+              />
+            </div>
+
+            {/* ── Team Members (Including AI Agents) ── */}
+            <div>
+              <label className="font-semibold text-sm text-dark mb-3 block">Team Members (Including AI Agents)</label>
+
+              <div className="flex flex-wrap items-center gap-2.5 mb-3">
+                {/* Human members */}
+                {teamMembers.map((m) => (
+                  <div key={m.id} className="group relative flex items-center gap-2.5 px-3 py-2 rounded-xl bg-[#252525] border border-border text-xs">
+                    <div className="w-8 h-8 rounded-full bg-[#1a2e22] text-[#7ee8a8] flex items-center justify-center text-xs font-bold flex-shrink-0">
+                      {m.name.charAt(0).toUpperCase()}
+                    </div>
+                    <div className="min-w-0">
+                      <div className="text-dark font-medium">{m.name}</div>
+                      <div className="text-gray text-[10px]">{m.role}</div>
+                    </div>
+                    <span className="text-[9px] text-gray bg-[#1a1a1a] px-1.5 py-0.5 rounded ml-1">Human</span>
+                    <button onClick={() => removeMember(m.id)} className="opacity-0 group-hover:opacity-100 absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-[#ef4444] text-white flex items-center justify-center text-[8px] border-none cursor-pointer transition-opacity">✕</button>
+                  </div>
+                ))}
+
+                {/* AI agents */}
+                {assignedAgents.map((a) => (
+                  <div key={a.id} className="group relative flex items-center gap-2.5 px-3 py-2 rounded-xl bg-[#0f1a2e] border border-[#3b82f640] text-xs">
+                    <span className="text-xl flex-shrink-0">{a.icon}</span>
+                    <div className="min-w-0">
+                      <div className="text-dark font-medium">{a.label}</div>
+                      <div className="text-gray text-[10px]">{a.role}</div>
+                    </div>
+                    <span className="text-[9px] text-[#3b82f6] bg-[#1a1a1a] px-1.5 py-0.5 rounded ml-1">AI</span>
+                    <button onClick={() => removeAgent(a.id)} className="opacity-0 group-hover:opacity-100 absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-[#ef4444] text-white flex items-center justify-center text-[8px] border-none cursor-pointer transition-opacity">✕</button>
+                  </div>
+                ))}
+
+                {teamMembers.length === 0 && assignedAgents.length === 0 && (
+                  <span className="text-xs text-gray italic">No team members added yet</span>
+                )}
+              </div>
+
+              {/* Add buttons row */}
+              <div className="flex gap-2 relative">
+                <button
+                  onClick={() => { setShowAddMember(true); setShowAddAgent(false); }}
+                  className="flex items-center gap-2 px-3 py-2 rounded-lg border-2 border-dashed border-border bg-transparent text-gray hover:border-[#7ee8a8] hover:text-[#7ee8a8] cursor-pointer transition-colors text-xs"
+                >
+                  <span className="text-sm">+</span> Add Person
+                </button>
+                <button
+                  onClick={() => { setShowAddAgent(true); setShowAddMember(false); }}
+                  className="flex items-center gap-2 px-3 py-2 rounded-lg border-2 border-dashed border-[#3b82f640] bg-transparent text-gray hover:border-[#3b82f6] hover:text-[#3b82f6] cursor-pointer transition-colors text-xs"
+                >
+                  <span className="text-sm">+</span> Add AI Agent
+                </button>
+
+                {/* Add Person popup */}
+                {showAddMember && (
+                  <div className="absolute top-full left-0 mt-2 z-20 p-3 rounded-xl bg-[#1a1a1a] border border-border shadow-lg min-w-[240px]">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-xs font-semibold text-dark">Add Team Member</span>
+                      <button onClick={() => setShowAddMember(false)} className="text-gray hover:text-dark bg-transparent border-none cursor-pointer"><CloseIcon /></button>
+                    </div>
+                    <input
+                      className={inputClass + ' mb-2 !text-xs !py-2'}
+                      placeholder="Name"
+                      value={newMemberName}
+                      onChange={(e) => setNewMemberName(e.target.value)}
+                      onKeyDown={(e) => e.key === 'Enter' && addMember()}
+                      autoFocus
+                    />
+                    <input
+                      className={inputClass + ' mb-2 !text-xs !py-2'}
+                      placeholder="Role (e.g. Project Manager)"
+                      value={newMemberRole}
+                      onChange={(e) => setNewMemberRole(e.target.value)}
+                      onKeyDown={(e) => e.key === 'Enter' && addMember()}
+                    />
+                    <button
+                      onClick={addMember}
+                      className="w-full py-1.5 rounded-lg text-xs font-semibold text-white border-none cursor-pointer"
+                      style={{ backgroundColor: brandColor }}
+                    >Add</button>
+                  </div>
+                )}
+
+                {/* Add AI Agent popup */}
+                {showAddAgent && (
+                  <div className="absolute top-full left-0 mt-2 z-20 p-3 rounded-xl bg-[#1a1a1a] border border-border shadow-lg min-w-[280px] max-h-[320px]" style={{ left: '120px' }}>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-xs font-semibold text-dark">Assign AI Agent</span>
+                      <button onClick={() => setShowAddAgent(false)} className="text-gray hover:text-dark bg-transparent border-none cursor-pointer"><CloseIcon /></button>
+                    </div>
+                    <input
+                      className={inputClass + ' mb-2 !text-xs !py-2'}
+                      placeholder="Role / Assignment (optional)"
+                      value={agentRole}
+                      onChange={(e) => setAgentRole(e.target.value)}
+                    />
+                    <div className="overflow-y-auto max-h-[200px] space-y-1">
+                      {AVAILABLE_AGENTS.filter((a) => !assignedAgents.some((aa) => aa.id === a.id)).map((agent) => (
+                        <button
+                          key={agent.id}
+                          onClick={() => addAgent(agent)}
+                          className="w-full flex items-center gap-2 px-2.5 py-2 rounded-lg bg-transparent border border-transparent hover:bg-[#252525] hover:border-border cursor-pointer transition-all text-left"
+                        >
+                          <span className="text-base">{agent.icon}</span>
+                          <span className="text-xs text-dark font-medium">{agent.label}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* ── Milestones ── */}
+            <div className="relative">
+              <label className="font-semibold text-sm text-dark mb-3 block">Milestones</label>
+              <div className="flex flex-wrap items-center gap-2.5 mb-3">
+                {milestones.map((m) => {
+                  const st = MILESTONE_STATUS[m.status];
+                  return (
+                    <div key={m.id} className="group relative flex items-center gap-2.5 px-3 py-2 rounded-xl border text-xs" style={{ backgroundColor: st.bg, borderColor: st.color + '40' }}>
+                      <button onClick={() => cycleMilestoneStatus(m.id)} className="w-5 h-5 rounded-full border-2 flex items-center justify-center text-[9px] bg-transparent cursor-pointer flex-shrink-0 transition-colors" style={{ borderColor: st.color, color: st.color }}>
+                        {m.status === 'completed' ? '✓' : m.status === 'in-progress' ? '▶' : '○'}
+                      </button>
+                      <div className="min-w-0">
+                        <div className="text-dark font-medium">{m.title}</div>
+                        {m.date && <div className="text-[10px]" style={{ color: st.color }}>Start: {m.date}</div>}
+                        {m.deadline && <div className="text-[10px] text-[#f59e0b]">Deadline: {m.deadline}</div>}
+                      </div>
+                      <span className="text-[9px] px-1.5 py-0.5 rounded" style={{ color: st.color, backgroundColor: '#1a1a1a' }}>{st.label}</span>
+                      <button onClick={() => removeMilestone(m.id)} className="opacity-0 group-hover:opacity-100 absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-[#ef4444] text-white flex items-center justify-center text-[8px] border-none cursor-pointer transition-opacity">✕</button>
+                    </div>
+                  );
+                })}
+                {milestones.length === 0 && (
+                  <span className="text-xs text-gray italic">No milestones added yet</span>
+                )}
+              </div>
+              <button
+                onClick={() => setShowAddMilestone(true)}
+                className="flex items-center gap-2 px-3 py-2 rounded-lg border-2 border-dashed border-border bg-transparent text-gray hover:border-[#7ee8a8] hover:text-[#7ee8a8] cursor-pointer transition-colors text-xs"
+              >
+                <span className="text-sm">+</span> Add Milestone
+              </button>
+
+              {/* Add Milestone popup */}
+              {showAddMilestone && (
+                <div className="absolute bottom-full left-0 mb-2 z-20 p-3 rounded-xl bg-[#1a1a1a] border border-border shadow-lg min-w-[240px]">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs font-semibold text-dark">Add Milestone</span>
+                    <button onClick={() => setShowAddMilestone(false)} className="text-gray hover:text-dark bg-transparent border-none cursor-pointer"><CloseIcon /></button>
+                  </div>
+                  <input
+                    className={inputClass + ' mb-2 !text-xs !py-2'}
+                    placeholder="Milestone title"
+                    value={newMilestoneTitle}
+                    onChange={(e) => setNewMilestoneTitle(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && addMilestone()}
+                    autoFocus
+                  />
+                  <label className="block text-[10px] text-gray mb-1">Start Date</label>
+                  <input
+                    type="date"
+                    className={inputClass + ' mb-2 !text-xs !py-2'}
+                    value={newMilestoneDate}
+                    onChange={(e) => setNewMilestoneDate(e.target.value)}
+                  />
+                  <label className="block text-[10px] text-[#f59e0b] mb-1">Deadline (must finish by)</label>
+                  <input
+                    type="date"
+                    className={inputClass + ' mb-2 !text-xs !py-2'}
+                    value={newMilestoneDeadline}
+                    onChange={(e) => setNewMilestoneDeadline(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && addMilestone()}
+                  />
+                  <p className="text-[10px] text-gray mb-2 italic">Job needs to be finished at the timeline</p>
+                  <button
+                    onClick={addMilestone}
+                    className="w-full py-1.5 rounded-lg text-xs font-semibold text-white border-none cursor-pointer"
+                    style={{ backgroundColor: brandColor }}
+                  >Add</button>
+                </div>
+              )}
+            </div>
+
+            <div className="border-b border-border" />
+          </div>
+        )}
 
         {/* Phase fields */}
         <div className="space-y-5 max-w-[700px]">
@@ -584,7 +631,52 @@ export function ProjectDefinitionPage({ onBack, projectLabel, projectIcon, proje
             </div>
           ))}
 
-          {/* Checklist — shown on Closure phase */}
+          {/* Show Project Under — shown on Created phase */}
+          {activePhase === 'closure' && (
+            <div className="pt-4 border-t border-border">
+              <label className="block font-semibold text-sm text-dark mb-2">Show Project Under</label>
+              <p className="text-xs text-gray mb-3">Choose where this project will appear in your workspace</p>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setProjectPosition('department')}
+                  className={`flex-1 flex items-center gap-3 p-4 rounded-xl cursor-pointer border-2 transition-all text-left ${
+                    projectPosition === 'department'
+                      ? 'border-[#7ee8a8] bg-[#1a2e22]'
+                      : 'border-border bg-[#1a1a1a] hover:border-[#7ee8a8]'
+                  }`}
+                >
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center text-xl ${
+                    projectPosition === 'department' ? 'bg-[#7ee8a820]' : 'bg-[#252525]'
+                  }`}>🏢</div>
+                  <div>
+                    <div className={`text-sm font-semibold ${projectPosition === 'department' ? 'text-[#7ee8a8]' : 'text-dark'}`}>Department</div>
+                    <div className="text-[11px] text-gray mt-0.5">Show under a specific department</div>
+                  </div>
+                  {projectPosition === 'department' && <span className="ml-auto text-[#7ee8a8]">✓</span>}
+                </button>
+
+                <button
+                  onClick={() => setProjectPosition('projects')}
+                  className={`flex-1 flex items-center gap-3 p-4 rounded-xl cursor-pointer border-2 transition-all text-left ${
+                    projectPosition === 'projects'
+                      ? 'border-[#7ee8a8] bg-[#1a2e22]'
+                      : 'border-border bg-[#1a1a1a] hover:border-[#7ee8a8]'
+                  }`}
+                >
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center text-xl ${
+                    projectPosition === 'projects' ? 'bg-[#7ee8a820]' : 'bg-[#252525]'
+                  }`}>📁</div>
+                  <div>
+                    <div className={`text-sm font-semibold ${projectPosition === 'projects' ? 'text-[#7ee8a8]' : 'text-dark'}`}>Projects</div>
+                    <div className="text-[11px] text-gray mt-0.5">Show under the Projects section</div>
+                  </div>
+                  {projectPosition === 'projects' && <span className="ml-auto text-[#7ee8a8]">✓</span>}
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Checklist — shown on Created phase */}
           {activePhase === 'closure' && (
             <div className="pt-4 border-t border-border">
               <label className="block font-semibold text-sm text-dark mb-3">2026 Workflow Checklist</label>
@@ -662,7 +754,23 @@ export function ProjectDefinitionPage({ onBack, projectLabel, projectIcon, proje
               if (idx < tabIds.length - 1) {
                 setActivePhase(tabIds[idx + 1]);
               } else {
-                onBack();
+                // Save project to store
+                addProject({
+                  id: Date.now().toString(),
+                  name: config.campaignName || projectLabel,
+                  icon: projectIcon,
+                  label: projectLabel,
+                  desc: projectDesc,
+                  position: projectPosition || 'projects',
+                  status: systemStatus,
+                  createdAt: new Date().toISOString(),
+                });
+                // Navigate to home so user can see the created project
+                if (onNavigate) {
+                  onNavigate('home');
+                } else {
+                  onBack();
+                }
               }
             }}
             className="px-6 py-2.5 rounded-lg text-sm font-semibold text-white cursor-pointer border-none transition-colors"

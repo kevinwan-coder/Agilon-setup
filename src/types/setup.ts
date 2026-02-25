@@ -25,6 +25,17 @@ export interface SetupData {
   branding: Branding;
 }
 
+export interface CreatedProject {
+  id: string;
+  name: string;
+  icon: string;
+  label: string;
+  desc: string;
+  position: 'department' | 'projects';
+  status: 'live' | 'activate';
+  createdAt: string;
+}
+
 export type ProvisioningStep = 'bot' | 'storage' | 'branding' | 'finalizing' | 'complete';
 
 export interface ProvisioningStatus {

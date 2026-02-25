@@ -93,6 +93,7 @@ export function HomeLanding({ onNavigate }: HomeLandingProps) {
   const brandColor = useSetupStore((s) => s.branding.color) || '#2dca72';
   const template = useSetupStore((s) => s.branding.template);
   const size = useSetupStore((s) => s.businessInfo.size);
+  const createdProjects = useSetupStore((s) => s.createdProjects);
   const isSidebar = template === 'classic';
   const isSmallTeam = size === '2-10';
   const [showAddModal, setShowAddModal] = useState(false);
@@ -263,6 +264,16 @@ export function HomeLanding({ onNavigate }: HomeLandingProps) {
                 <div className="px-3 py-2 text-xs font-semibold text-dark">Message</div>
               </div>
             )}
+            {/* Created projects — position: projects */}
+            {createdProjects.filter((p) => p.position === 'projects').map((p) => (
+              <div key={p.id} className="w-[140px] bg-[#1a1a1a] rounded-2xl border border-border overflow-hidden cursor-pointer hover:border-[#444] transition-colors">
+                <div className="h-[70px] flex items-center justify-center text-3xl">{p.icon}</div>
+                <div className="px-3 py-2">
+                  <div className="text-xs font-semibold text-dark truncate">{p.name}</div>
+                  {p.status === 'live' && <div className="text-[9px] text-[#22c55e] mt-0.5">Live</div>}
+                </div>
+              </div>
+            ))}
             {/* + Card */}
             <div className="w-[140px] bg-[#1a1a1a] rounded-2xl border border-border flex flex-col items-center justify-center cursor-pointer transition-colors" onClick={() => setShowAddModal(true)} onMouseEnter={(e) => e.currentTarget.style.borderColor = brandColor} onMouseLeave={(e) => e.currentTarget.style.borderColor = ''}>
               <span className="text-3xl mb-1" style={{ color: brandColor }}>+</span>
@@ -297,6 +308,16 @@ export function HomeLanding({ onNavigate }: HomeLandingProps) {
               </div>
               <div className="px-3 py-2 text-xs font-semibold text-dark">Project 2</div>
             </div>
+            {/* Created projects — position: department */}
+            {createdProjects.filter((p) => p.position === 'department').map((p) => (
+              <div key={p.id} className="w-[140px] bg-[#1a1a1a] rounded-2xl border border-border overflow-hidden cursor-pointer hover:border-[#444] transition-colors">
+                <div className="h-[70px] flex items-center justify-center text-3xl">{p.icon}</div>
+                <div className="px-3 py-2">
+                  <div className="text-xs font-semibold text-dark truncate">{p.name}</div>
+                  {p.status === 'live' && <div className="text-[9px] text-[#22c55e] mt-0.5">Live</div>}
+                </div>
+              </div>
+            ))}
             {/* More Projects */}
             <div className="w-[140px] bg-[#1a1a1a] rounded-2xl border border-border flex flex-col items-center justify-center cursor-pointer transition-colors" onClick={() => setShowAddModal(true)} onMouseEnter={(e) => e.currentTarget.style.borderColor = brandColor} onMouseLeave={(e) => e.currentTarget.style.borderColor = ''}>
               <span className="text-3xl mb-1" style={{ color: brandColor }}>+</span>

@@ -86,6 +86,7 @@ const PROJECT_CATEGORIES: ProjectCategory[] = [
       { id: 'proposal', icon: '📋', label: 'Proposal', desc: 'Proposal creation & tracking' },
       { id: 'client-onboarding', icon: '🤝', label: 'Client Onboarding', desc: 'New client setup & onboarding' },
       { id: 'territory', icon: '🗺️', label: 'Territory', desc: 'Territory planning & assignment' },
+      { id: 'amazon-promotion', icon: '🛒', label: 'Amazon Promotion', desc: 'Amazon ads, deals & promotional campaigns' },
     ],
   },
   {

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { BusinessInfo, Branding, SkillId } from '../types/setup';
+import type { BusinessInfo, Branding, SkillId, CreatedProject } from '../types/setup';
 
 interface SetupState {
   currentStep: number;
@@ -8,6 +8,7 @@ interface SetupState {
   skills: SkillId[];
   isProvisioning: boolean;
   isComplete: boolean;
+  createdProjects: CreatedProject[];
 
   setStep: (step: number) => void;
   updateBusinessInfo: (data: Partial<BusinessInfo>) => void;
@@ -15,6 +16,7 @@ interface SetupState {
   toggleSkill: (skill: SkillId) => void;
   setProvisioning: (v: boolean) => void;
   setComplete: (v: boolean) => void;
+  addProject: (project: CreatedProject) => void;
   reset: () => void;
 }
 
@@ -41,6 +43,7 @@ export const useSetupStore = create<SetupState>((set) => ({
   skills: [],
   isProvisioning: false,
   isComplete: false,
+  createdProjects: [],
 
   setStep: (step) => set({ currentStep: step }),
 
@@ -63,6 +66,11 @@ export const useSetupStore = create<SetupState>((set) => ({
 
   setProvisioning: (v) => set({ isProvisioning: v }),
   setComplete: (v) => set({ isComplete: v }),
+
+  addProject: (project) =>
+    set((state) => ({
+      createdProjects: [...state.createdProjects, project],
+    })),
 
   reset: () =>
     set({

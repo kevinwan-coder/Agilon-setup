@@ -38,7 +38,7 @@ export function Dashboard() {
       case 'sales-setup': return <SalesSetupPage onBack={() => setPage('ai-agents')} />;
       case 'agent-definition': return <AgentDefinitionPage onBack={() => setPage('ai-agents')} agentLabel={selectedAgent?.label || 'Agent'} agentIcon={selectedAgent?.icon || '🤖'} agentDesc={selectedAgent?.desc || 'Configure your AI agent'} />;
       case 'project-type': return <ProjectTypePage onBack={() => setPage('home')} onNavigate={setPage} onSelectProject={setSelectedProject} />;
-      case 'project-definition': return <ProjectDefinitionPage onBack={() => setPage('project-type')} projectLabel={selectedProject?.label || 'Project'} projectIcon={selectedProject?.icon || '📁'} projectDesc={selectedProject?.desc || 'Configure your project'} />;
+      case 'project-definition': return <ProjectDefinitionPage onBack={() => setPage('project-type')} onNavigate={setPage} projectLabel={selectedProject?.label || 'Project'} projectIcon={selectedProject?.icon || '📁'} projectDesc={selectedProject?.desc || 'Configure your project'} />;
       case 'hr': return <HRPage />;
       default: return <HomePage />;
     }
