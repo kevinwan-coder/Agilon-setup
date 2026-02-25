@@ -249,8 +249,9 @@ export function AddNewModal({ open, onClose, onNavigate }: AddNewModalProps) {
                   if (choice.id === 'ai-agent' && onNavigate) {
                     handleClose();
                     onNavigate('ai-agents');
-                  } else if (choice.id === 'project') {
-                    setView('project');
+                  } else if (choice.id === 'project' && onNavigate) {
+                    handleClose();
+                    onNavigate('project-type');
                   } else {
                     handleClose();
                   }

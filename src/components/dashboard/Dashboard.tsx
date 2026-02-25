@@ -12,11 +12,14 @@ import { SupportSetupPage } from './pages/SupportSetupPage';
 import { SalesSetupPage } from './pages/SalesSetupPage';
 import { AIAgentsPage } from './pages/AIAgentsPage';
 import { AgentDefinitionPage } from './pages/AgentDefinitionPage';
+import { ProjectTypePage } from './pages/ProjectTypePage';
+import { ProjectDefinitionPage } from './pages/ProjectDefinitionPage';
 import { HRPage } from './pages/HRPage';
 
 export function Dashboard() {
   const [page, setPage] = useState('home');
   const [selectedAgent, setSelectedAgent] = useState<{ label: string; icon: string; desc: string } | null>(null);
+  const [selectedProject, setSelectedProject] = useState<{ label: string; icon: string; desc: string } | null>(null);
 
   const renderPage = () => {
     if (page.startsWith('skill-')) {
@@ -34,6 +37,8 @@ export function Dashboard() {
       case 'support-setup': return <SupportSetupPage onBack={() => setPage('ai-agents')} />;
       case 'sales-setup': return <SalesSetupPage onBack={() => setPage('ai-agents')} />;
       case 'agent-definition': return <AgentDefinitionPage onBack={() => setPage('ai-agents')} agentLabel={selectedAgent?.label || 'Agent'} agentIcon={selectedAgent?.icon || '🤖'} agentDesc={selectedAgent?.desc || 'Configure your AI agent'} />;
+      case 'project-type': return <ProjectTypePage onBack={() => setPage('home')} onNavigate={setPage} onSelectProject={setSelectedProject} />;
+      case 'project-definition': return <ProjectDefinitionPage onBack={() => setPage('project-type')} projectLabel={selectedProject?.label || 'Project'} projectIcon={selectedProject?.icon || '📁'} projectDesc={selectedProject?.desc || 'Configure your project'} />;
       case 'hr': return <HRPage />;
       default: return <HomePage />;
     }
