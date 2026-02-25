@@ -12,6 +12,7 @@ import { SupportSetupPage } from './pages/SupportSetupPage';
 import { SalesSetupPage } from './pages/SalesSetupPage';
 import { AIAgentsPage } from './pages/AIAgentsPage';
 import { AgentDefinitionPage } from './pages/AgentDefinitionPage';
+import { HRPage } from './pages/HRPage';
 
 export function Dashboard() {
   const [page, setPage] = useState('home');
@@ -33,6 +34,7 @@ export function Dashboard() {
       case 'support-setup': return <SupportSetupPage onBack={() => setPage('ai-agents')} />;
       case 'sales-setup': return <SalesSetupPage onBack={() => setPage('ai-agents')} />;
       case 'agent-definition': return <AgentDefinitionPage onBack={() => setPage('ai-agents')} agentLabel={selectedAgent?.label || 'Agent'} agentIcon={selectedAgent?.icon || '🤖'} agentDesc={selectedAgent?.desc || 'Configure your AI agent'} />;
+      case 'hr': return <HRPage />;
       default: return <HomePage />;
     }
   };
